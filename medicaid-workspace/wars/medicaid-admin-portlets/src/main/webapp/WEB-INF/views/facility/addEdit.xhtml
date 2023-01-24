@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+   xmlns:p="http://primefaces.org/ui">
+ 
+<h:head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<h:outputStylesheet library="css" name="style.css"/>
+
+</h:head>
+<h:body>
+
+   
+    
+    <div class="container">
+  			<div class="row">
+    			<div class="col-sm-9 col-md-6 col-lg-12">  
+    				<h:panelGroup rendered="#{!facilityBean.isEdit}"> <h1 >New Facility</h1>  </h:panelGroup>
+    				<h:panelGroup rendered="#{facilityBean.isEdit}"> <h1 >Edit Facility</h1>  </h:panelGroup>
+    			</div>    			
+  			</div>
+  			
+  			<h:form>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Name*"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="name" value="#{facilityBean.facility.name}" required="true" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Address*"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="address" value="#{facilityBean.facility.address}" required="true" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="City*"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="city" value="#{facilityBean.facility.city}" required="true" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="State*"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:selectOneMenu id="state" value="#{facilityBean.facility.state}" dynamic="true" required="true">
+		                    <f:selectItem itemLabel="Select One" itemValue=""/>
+		                    <f:selectItems value="#{facilityBean.states}"/>
+		                </p:selectOneMenu>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="ZipCode*"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="zipcode" value="#{facilityBean.facility.zipcode}" required="true" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Phone*"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="phone" value="#{facilityBean.facility.phoneNumber}" required="true" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Fax"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="faxNumber" value="#{facilityBean.facility.faxNumber}" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Email"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="email" value="#{facilityBean.facility.email}" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Point Of Contact"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputText id="pointOfContact" value="#{facilityBean.facility.pointOfContact}" ></p:inputText>
+	    			</div>    			
+	  			</div>
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				 <p:commandButton style="margin-top:2%" value="Update Facility" rendered="#{facilityBean.isEdit}"  action="#{facilityBean.save}" update="@form"/>
+	    				 <p:commandButton style="margin-top:2%" value="Add Facility" rendered="#{!facilityBean.isEdit}"  action="#{facilityBean.save}" update="@form"/>
+	    			</div>    			
+	  			</div>
+	  			
+	  			
+	  			
+	  		</h:form>	
+  	</div>
+    
+    
+    
+
+
+</h:body>
+</f:view>

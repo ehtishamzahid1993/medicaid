@@ -1,0 +1,43 @@
+<service-builder-import>
+	<!-- Entity only for User API Calls -->
+	<entity name="Patient" local-service="true"
+		remote-service="true">
+
+		<!-- PK fields -->
+		<column name="patientId" type="long" primary="true" />
+		
+		<column name="firstName" type="String" />
+		<column name="lastName" type="String" />
+		<column name="emailAddress" type="String" />
+		<column name="phoneNo" type="long" />
+		<column name="dateOfBirth" type="Date" />
+		<column name="admitDate" type="Date" />
+		<column name="admitPayer" type="String" />
+		<column name="medicaidNeedDate" type="Date" />
+		<column name="haveMedicaid" type="boolean" />
+		<column name="residentLiabilityEmailSent" type="boolean" />
+		<column name="address" type="String" />
+		<column name="city" type="String" />
+		<column name="state" type="String" />
+		<column name="zipCode" type="String" />
+		
+		
+		<column name="documentIds" type="String" />
+		<column name="referralId" type="Long" />
+		<column name="facilityId" type="String" />
+		
+
+		<!-- Audit Fields -->
+		<column name="createDate" type="Date" />
+		<column name="createdBy" type="String" />
+		<column name="modifiedDate" type="Date" />
+		<column name="modifiedBy" type="String" />
+
+		<finder name="FirstName" return-type="Collection">
+			<finder-column name="firstName" />
+		</finder>
+		<finder name="EmailAddress" return-type="Collection">
+			<finder-column name="emailAddress" />
+		</finder>
+	</entity>
+</service-builder-import>

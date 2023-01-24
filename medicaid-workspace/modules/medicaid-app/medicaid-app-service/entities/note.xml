@@ -1,0 +1,21 @@
+<service-builder-import>
+	<!-- Entity only for User API Calls -->
+	<entity name="Note" local-service="true"
+		remote-service="true">
+
+		<!-- PK fields -->
+		<column name="noteId" type="long" primary="true" />
+		
+		<column name="referralId" type="Long" />
+		<column name="commentDate" type="Date" />
+		<column name="comments" type="String" />
+
+		<!-- Audit Fields -->
+		<column name="createDate" type="Date" />
+		<column name="createdBy" type="String" />
+		<column name="modifiedDate" type="Date" />
+		<column name="modifiedBy" type="String" />
+
+		
+	</entity>
+</service-builder-import>

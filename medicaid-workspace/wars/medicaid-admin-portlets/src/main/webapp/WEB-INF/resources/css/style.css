@@ -1,0 +1,94 @@
+body .ui-button.ui-button-icon-only .ui-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -0.5rem;
+    margin-left: -0.5rem;
+    color: black;
+}
+body .ui-card .ui-card-body {
+    padding: 1rem;
+    background: #d5dadb;
+}
+body .ui-card .ui-card-content {
+    padding: 1rem 0;
+    text-align: center;
+}
+body .ui-card .ui-card-footer {
+    padding: 1rem 0 0 0;
+    text-align: center;
+    background: #5a9eae;
+}
+body .ui-card {
+    background: #fff;
+    color: #495057;
+    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+.center {
+         border: 2px solid;
+         margin: auto;
+         padding: 10px;
+         border-color:grey;
+         }
+         .container { 
+         position: relative;
+         }
+         .buttonCenter{
+         text-align:center;
+         }
+         body .ui-message.ui-message-error, body .ui-message.ui-message-fatal {
+		    background: #fefefe;
+		    border-width: 0;
+		    color: #e41e1e;
+		    margin-left: 18% !important;
+		    margin-top: -1%;
+		}
+		.ui-message-error-icon {
+		    display: none !important;
+		}
+		body .ui-button {
+		    background: #16A0AA;
+		    color: #fff;
+		    border: 1px solid #16A0AA;
+		    margin: 0;
+		    outline: 0 none;
+		    border-radius: 4px;
+		    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+		    margin: 3px;
+		}
+ .ui-filter-column .ui-column-customfilter .custom-filter {
+        width: 100%;
+        box-sizing: border-box;
+    }
+body .ui-inputfield {
+    color: #495057;
+    padding: 0.5rem 0.5rem;
+    border: 1px solid #ced4da;
+    outline: 0 none;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: #F1F2F5;
+}
+body .ui-selectonemenu {
+    vertical-align: middle;
+    border: 1px solid #ced4da;
+    position: relative;
+    transform: none;
+    padding: 0;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+    border-radius: 4px;
+    background: #f1f2f5;
+    width: 100%;
+} 
+.p-datepicker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}   		
+		

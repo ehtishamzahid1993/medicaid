@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+   xmlns:p="http://primefaces.org/ui">
+ 
+<h:head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<h:outputStylesheet library="css" name="style.css"/>
+
+</h:head>
+<h:body>
+
+   
+    
+    
+					    <h5>All Facilities</h5>
+					    <h:form>
+					        <p:dataTable id="tbl" var="facility" value="#{facilityBean.facilitiesList}" widgetVar="facilityTable"
+					            emptyMessage="No Facilities found" rowKey="#{facility.facilityId}"
+					            selection="#{facilityBean.facility}" selectionMode="single">
+					
+					            <f:facet name="header">
+					            
+					            	<div class="flex justify-content-end">
+					                    <p:commandButton rendered="#{facilityBean.showButtons}" value="New Facility"  action="#{facilityBean.addNewFacility}" update="@form" />
+					                    
+					                     <p:commandButton rendered="#{facilityBean.showButtons}" style="background: #8c9496;border: 1px solid #8C9496;" value="Edit Facility"  action="#{facilityBean.editFacility}" update="@form" />
+					                     
+					                     <p:commandButton value="Export as CSV" styleClass="mr-2 mb-2">
+						                    <p:dataExporter type="csv" target="tbl" fileName="facilities" />
+						                </p:commandButton>
+					                
+					                    <p:inputText  id="globalFilter" onkeyup="PF('facilityTable').filter()" style="width:300px; float:right !important;"
+					                                 placeholder="Search" />
+					                </div>
+					            </f:facet>
+					
+					            <p:column headerText="Facility ID" filterBy="#{facility.facilityId}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.facilityId}" />
+					            </p:column>
+					            
+					            <p:column headerText="Name"  filterBy="#{facility.name}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.name}" />
+					            </p:column>
+					            
+					             <p:column headerText="Address" filterBy="#{facility.address}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.address} #{facility.city} #{facility.state} #{facility.zipcode}" />
+					            </p:column>
+					            
+					             <p:column headerText="Phone" filterBy="#{facility.phoneNumber}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.phoneNumber}" />
+					            </p:column>
+					            
+					            <p:column headerText="Fax" filterBy="#{facility.faxNumber}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.faxNumber}" />
+					            </p:column>
+					            
+					            <p:column headerText="Email" filterBy="#{facility.email}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.email}" />
+					            </p:column>
+					            
+					            <p:column headerText="Point of Contact" filterBy="#{facility.pointOfContact}" filterMatchMode="contains">
+					                <h:outputText value="#{facility.pointOfContact}" />
+					            </p:column>
+					
+					            
+					
+					        </p:dataTable>
+					    </h:form>
+    
+    
+    
+
+
+</h:body>
+</f:view>

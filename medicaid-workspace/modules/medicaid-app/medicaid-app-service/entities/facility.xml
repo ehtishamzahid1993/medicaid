@@ -1,0 +1,28 @@
+<service-builder-import>
+	<!-- Entity only for User API Calls -->
+	<entity name="Facility" local-service="true"
+		remote-service="true">
+
+		<!-- PK fields -->
+		<column name="facilityId" type="long" primary="true" />
+		
+		<column name="name" type="String" />
+		<column name="address" type="String" />
+		<column name="city" type="String" />
+		<column name="state" type="String" />
+		<column name="zipcode" type="String" />
+		<column name="phoneNumber" type="long" />
+		<column name="faxNumber" type="String" />
+		<column name="email" type="String" />
+		<column name="pointOfContact" type="String" />
+		
+			
+
+		<!-- Audit Fields -->
+		<column name="createDate" type="Date" />
+		<column name="createdBy" type="String" />
+		<column name="modifiedDate" type="Date" />
+		<column name="modifiedBy" type="String" />
+
+	</entity>
+</service-builder-import>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+   xmlns:p="http://primefaces.org/ui">
+   <h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+   </h:head>
+   <h:body>
+      <div class="center" style="height: 100% !important; width:75% !important;">
+         <p style="font-size:80px; text-align:center; font-family:sans-serif;">
+            <span style="color:black">App</span><span style="color:grey">Track</span>
+         </p>
+      </div>
+      <br></br>
+      <br></br>
+      <div>
+         <p style="font-size:30px;text-align:center; font-family:sans-serif;">
+            <span style="color:black">Login</span>
+         </p>
+      </div>
+      <h:form id="lookupListForm">
+            <p:inputText style="margin-left: 18%;margin-bottom:2%; width:65% !important;" 
+               placeholder="Username" id="username" value="#{loginBean.emailAddress}" styleClass="block"
+               required="true" requiredMessage="Please enter username" >
+             </p:inputText>
+             <p:message for="username"></p:message>
+    
+       
+            <p:password style="margin-left: 18%; margin-bottom:2%; width: 65% !important;"
+               placeholder="Password" id="password" value="#{loginBean.password}"
+               required="true" requiredMessage="Please enter password"/>
+               <p:message for="password"></p:message>
+       
+         <br></br>
+         <div class="buttonCenter">
+            <p:commandButton value="Login" 
+               action="#{loginBean.login}" update="@form"
+               />
+         </div>
+      </h:form>
+   </h:body>
+</f:view>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<faces-config version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+>
+	<lifecycle>
+		<phase-listener>com.liferay.faces.util.lifecycle.DebugPhaseListener</phase-listener>
+	</lifecycle>
+		<application>
+		<resource-bundle>
+			<base-name>settings</base-name>
+			<var>settings</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>message</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>labels</base-name>
+			<var>label</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>ApplicationSettings</base-name>
+			<var>appset</var>
+		</resource-bundle>
+	</application>
+	<managed-bean>
+		<managed-bean-name>now</managed-bean-name> 
+		<managed-bean-class>java.util.Date</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	 <factory>
+    	<exception-handler-factory>com.medicaid.common.faces.CustomExceptionHandlerFactory</exception-handler-factory>
+	</factory> 
+</faces-config>

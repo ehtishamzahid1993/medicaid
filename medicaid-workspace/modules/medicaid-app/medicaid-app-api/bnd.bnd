@@ -1,0 +1,10 @@
+Bundle-Name: medicaid-app-api
+Bundle-SymbolicName: com.medicaid.app.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.medicaid.app.exception,\
+	com.medicaid.app.model,\
+	com.medicaid.app.service,\
+	com.medicaid.app.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../medicaid-app-service/service.xml

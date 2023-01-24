@@ -1,0 +1,36 @@
+<service-builder-import>
+	<!-- Entity only for User API Calls -->
+	<entity name="Referral" local-service="true"
+		remote-service="true">
+
+		<!-- PK fields -->
+		<column name="referralId" type="long" primary="true" />
+		
+		
+		<column name="dateReferred" type="Date" />
+		
+		<column name="submitDate" type="Date" />
+		<column name="approvedDate" type="Date" />
+		<column name="pendingDate" type="Date" />
+		<column name="status" type="String" />
+		<column name="cocEmailSent" type="String" />
+		<column name="resLiability" type="String" />
+		<column name="emailSentDueDate" type="Date" />
+		
+		<column name="facilityAdmin" type="String" />
+		<column name="facilities" type="String" /> 
+		<column name="patientId" type="long" />
+		<column name="noteId" type="long" />
+
+		<!-- Audit Fields -->
+		<column name="createDate" type="Date" />
+		<column name="createdBy" type="String" />
+		<column name="modifiedDate" type="Date" />
+		<column name="modifiedBy" type="String" />
+
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		
+	</entity>
+</service-builder-import>

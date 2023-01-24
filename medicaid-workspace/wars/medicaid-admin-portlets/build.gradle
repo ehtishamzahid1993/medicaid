@@ -1,0 +1,55 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+
+eclipse {
+	project {
+		natures 'org.springsource.ide.eclipse.gradle.core.nature', 'org.eclipse.jdt.groovy.core.groovyNature', 'org.eclipse.wst.common.project.facet.core.nature'
+	}
+	classpath {
+		containers 'org.springsource.ide.eclipse.gradle.classpathcontainer'
+	}
+	wtp {
+		facet {
+		  facet name: 'jst.web', version: '3.0'
+		  facet name: "jst.jsf", version: "2.2"
+		  facet name: 'java', version: '1.8'
+		}
+	}
+	jdt {
+		sourceCompatibility = 1.8
+		targetCompatibility = 1.8
+	}
+}
+
+repositories {
+     mavenCentral()
+}
+
+dependencies {
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.configuration.metatype.api"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
+	
+    providedCompile group: 'javax.enterprise', name: 'cdi-api', version: '1.2'
+    providedCompile group: 'javax.faces', name: 'javax.faces-api', version: '2.2'
+    runtime group: 'org.glassfish', name: 'javax.faces', version: '2.2.20'
+    runtime group: 'com.liferay.faces', name: 'com.liferay.faces.bridge.ext', version: '6.1.0'
+    implementation 'com.liferay.faces:com.liferay.faces.portal:4.0.0'
+    runtime group: 'com.liferay.faces', name: 'com.liferay.faces.bridge.impl', version: '4.2.0'
+    compile group: 'com.liferay.faces', name: 'com.liferay.faces.alloy', version:'3.0.3'
+    providedCompile group: "org.osgi", name:"org.osgi.core", version:"6.0.0"
+	compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.20'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile group: 'org.primefaces', name: 'primefaces', version: '12.0.0'
+    
+    providedCompile project(":modules:medicaid-app:medicaid-app-api")
+    providedCompile project(":modules:medicaid-app:medicaid-app-service")
+    
+  
+	
+}

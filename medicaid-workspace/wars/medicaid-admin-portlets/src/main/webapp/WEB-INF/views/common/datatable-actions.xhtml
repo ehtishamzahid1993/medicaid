@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:alloy="http://liferay.com/faces/alloy"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:rowEditor styleClass="fa actionElements rowEdit_#{key}"
+		style="display:none;" />
+
+	<p:menuButton value="Options">
+		<p:menuitem value="Edit" icon="fa fa-edit" styleClass="editBtn_#{key}"
+			onclick="showRowEdit('#{key}');" global="false" />
+
+		<p:menuitem value="Save" icon="fa fa-check"
+			styleClass="saveBtn_#{key}" style="display:none;"
+			onclick="saveRowEdit('#{key}','check');"
+			oncomplete="Liferay.Session.extend();" global="false" />
+
+		<p:menuitem value="Cancel" icon="fa fa-close"
+			styleClass="saveBtn_#{key}" style="display:none;"
+			onclick="saveRowEdit('#{key}','close');" global="false" />
+
+		<p:menuitem value="Delete"
+			actionListener="#{beanName.deleteRow(lookup)}"
+			icon="fa fa-fw fa-trash" update="@form">
+			<p:confirm header="Confirmation" message="Going to Delete"
+				icon="fa fa-fw fa-warning" />
+		</p:menuitem>
+
+		<p:menuitem rendered="#{lookup.enabled}" value="Disable"
+			icon="fa fa-eye-slash"
+			actionListener="#{beanName.changeEnabled(lookup)}" update="@form">
+		</p:menuitem>
+
+		<p:menuitem rendered="#{!lookup.enabled}" value="Enable"
+			icon="fa fa-eye" actionListener="#{beanName.changeEnabled(lookup)}"
+			update="@form">
+		</p:menuitem>
+	</p:menuButton>
+
+</ui:composition>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.medicaid.app.model.Facility">
+		<field name="facilityId" type="long" />
+		<field name="name" type="String" />
+		<field name="address" type="String" />
+		<field name="city" type="String" />
+		<field name="state" type="String" />
+		<field name="zipcode" type="String" />
+		<field name="phoneNumber" type="long" />
+		<field name="faxNumber" type="String" />
+		<field name="email" type="String" />
+		<field name="pointOfContact" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+	</model>
+	<model name="com.medicaid.app.model.FacilityAdmin">
+		<field name="userName" type="String" />
+		<field name="email" type="String" />
+		<field name="firstName" type="String" />
+		<field name="lastName" type="String" />
+		<field name="phoneNumber" type="long" />
+		<field name="title" type="String" />
+		<field name="facilityIds" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+	</model>
+	<model name="com.medicaid.app.model.Note">
+		<field name="noteId" type="long" />
+		<field name="referralId" type="Long" />
+		<field name="commentDate" type="Date" />
+		<field name="comments" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+	</model>
+	<model name="com.medicaid.app.model.Patient">
+		<field name="patientId" type="long" />
+		<field name="firstName" type="String" />
+		<field name="lastName" type="String" />
+		<field name="emailAddress" type="String" />
+		<field name="phoneNo" type="long" />
+		<field name="dateOfBirth" type="Date" />
+		<field name="admitDate" type="Date" />
+		<field name="admitPayer" type="String" />
+		<field name="medicaidNeedDate" type="Date" />
+		<field name="haveMedicaid" type="boolean" />
+		<field name="residentLiabilityEmailSent" type="boolean" />
+		<field name="address" type="String" />
+		<field name="city" type="String" />
+		<field name="state" type="String" />
+		<field name="zipCode" type="String" />
+		<field name="documentIds" type="String" />
+		<field name="referralId" type="Long" />
+		<field name="facilityId" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+	</model>
+	<model name="com.medicaid.app.model.Referral">
+		<field name="referralId" type="long" />
+		<field name="dateReferred" type="Date" />
+		<field name="submitDate" type="Date" />
+		<field name="approvedDate" type="Date" />
+		<field name="pendingDate" type="Date" />
+		<field name="status" type="String" />
+		<field name="cocEmailSent" type="String" />
+		<field name="resLiability" type="String" />
+		<field name="emailSentDueDate" type="Date" />
+		<field name="facilityAdmin" type="String" />
+		<field name="facilities" type="String" />
+		<field name="patientId" type="long" />
+		<field name="noteId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+	</model>
+</model-hints>

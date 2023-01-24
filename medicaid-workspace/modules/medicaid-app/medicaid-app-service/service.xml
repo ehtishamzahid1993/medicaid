@@ -13,4 +13,6 @@
 		file="entities/facility.xml"></service-builder-import>
 		<service-builder-import
 		file="entities/facilityadmin.xml"></service-builder-import>
+		<service-builder-import
+		file="entities/document.xml"></service-builder-import>
 </service-builder>

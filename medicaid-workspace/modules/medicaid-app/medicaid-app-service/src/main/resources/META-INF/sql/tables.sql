@@ -1,3 +1,15 @@
+create table Medicaid_Document (
+	documentId LONG not null primary key,
+	docName VARCHAR(75) null,
+	fileId LONG,
+	fileUrl VARCHAR(75) null,
+	patientId LONG,
+	createDate DATE null,
+	createdBy VARCHAR(75) null,
+	modifiedDate DATE null,
+	modifiedBy VARCHAR(75) null
+);
+
 create table Medicaid_Facility (
 	facilityId LONG not null primary key,
 	name VARCHAR(75) null,

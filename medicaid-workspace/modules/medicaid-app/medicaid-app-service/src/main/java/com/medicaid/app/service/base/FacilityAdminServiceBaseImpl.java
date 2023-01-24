@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import com.medicaid.app.model.FacilityAdmin;
 import com.medicaid.app.service.FacilityAdminService;
+import com.medicaid.app.service.persistence.DocumentPersistence;
 import com.medicaid.app.service.persistence.FacilityAdminPersistence;
 import com.medicaid.app.service.persistence.FacilityPersistence;
 import com.medicaid.app.service.persistence.NotePersistence;
@@ -109,6 +110,9 @@ public abstract class FacilityAdminServiceBaseImpl
 			throw new SystemException(exception);
 		}
 	}
+
+	@Reference
+	protected DocumentPersistence documentPersistence;
 
 	@Reference
 	protected FacilityPersistence facilityPersistence;

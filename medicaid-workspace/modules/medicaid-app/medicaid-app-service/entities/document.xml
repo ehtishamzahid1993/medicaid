@@ -1,0 +1,26 @@
+<service-builder-import>
+	<!-- Entity only for User API Calls -->
+	<entity name="Document" local-service="true"
+		remote-service="true">
+
+		<!-- PK fields -->
+		<column name="documentId" type="long" primary="true" />
+		
+		<column name="docName" type="String" />
+		<column name="fileId" type="long" />
+		<column name="fileUrl" type="String" />
+		<column name="patientId" type="long" />
+
+		<!-- Audit Fields -->
+		<column name="createDate" type="Date" />
+		<column name="createdBy" type="String" />
+		<column name="modifiedDate" type="Date" />
+		<column name="modifiedBy" type="String" />
+
+
+		<finder name="PatientId" return-type="Collection">
+			<finder-column name="patientId" />
+		</finder>
+		
+	</entity>
+</service-builder-import>

@@ -1,6 +1,17 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="com.medicaid.app.model.Document">
+		<field name="documentId" type="long" />
+		<field name="docName" type="String" />
+		<field name="fileId" type="long" />
+		<field name="fileUrl" type="String" />
+		<field name="patientId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="createdBy" type="String" />
+		<field name="modifiedDate" type="Date" />
+		<field name="modifiedBy" type="String" />
+	</model>
 	<model name="com.medicaid.app.model.Facility">
 		<field name="facilityId" type="long" />
 		<field name="name" type="String" />

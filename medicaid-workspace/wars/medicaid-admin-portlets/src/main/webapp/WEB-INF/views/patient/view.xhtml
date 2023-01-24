@@ -17,7 +17,7 @@
    
     
     
-					    <h5>All Facilities</h5>
+					    <h5>All Patients</h5>
 					    <h:form>
 					        <p:dataTable id="tbl" var="patient" value="#{patientBean.patientsList}" widgetVar="patientTable"
 					            emptyMessage="No Patients found" rowKey="#{patient.patientId}"
@@ -52,11 +52,15 @@
 					            </p:column>
 					            
 					            <p:column headerText="Admit Date" filterBy="#{patient.admitDate}" filterMatchMode="contains">
-					                <h:outputText value="#{patient.admitDate}" />
+					                <h:outputText value="#{patient.admitDate}" >
+					                <f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
+					                </h:outputText>
 					            </p:column>
 					            
 					            <p:column headerText="DOB" filterBy="#{patient.dateOfBirth}" filterMatchMode="contains">
-					                <h:outputText value="#{patient.dateOfBirth}" />
+					                <h:outputText value="#{patient.dateOfBirth}" >
+					                <f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
+					                </h:outputText>
 					            </p:column>
 					            
 					            <p:column headerText="Admit Payer" filterBy="#{patient.admitPayer}" filterMatchMode="contains">
@@ -64,15 +68,17 @@
 					            </p:column>
 					            
 					            <p:column headerText="Medicaid Date" filterBy="#{patient.medicaidNeedDate}" filterMatchMode="contains">
-					                <h:outputText value="#{patient.medicaidNeedDate}" />
+					                <h:outputText value="#{patient.medicaidNeedDate}" >
+					                <f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
+					                </h:outputText>
 					            </p:column>
 					            
-					            <p:column headerText="Medicaid" filterBy="#{patient.haveMedicaid}" filterMatchMode="contains">
-					                <h:outputText value="#{patient.haveMedicaid}" />
+					            <p:column headerText="Medicaid" filterBy="#{patient.haveMedicaid }" filterMatchMode="contains">
+					                <h:outputText value="#{patient.haveMedicaid == false ? 'N':'Y'}" />
 					            </p:column>
 					            
 					             <p:column headerText="Address" filterBy="#{patient.address}" filterMatchMode="contains">
-					                <h:outputText value="#{patient.address} #{patient.city} #{patient.state} #{patient.zipcode}" />
+					                <h:outputText value="#{patient.address} #{patient.city} #{patient.state} #{patient.zipCode}" />
 					            </p:column>
 					            
 					            

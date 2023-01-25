@@ -24,7 +24,7 @@
     			</div>    			
   			</div>
   			
-  			<h:form>
+  			<h:form id="form1">
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
 	    				<p:outputLabel value="First Name*"></p:outputLabel>
@@ -177,34 +177,35 @@
                      </div>
                 </div>
                 
-                <div class="row">
-	  				<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Documents Uploaded"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-			  			 <h:panelGroup rendered="#{patientBean.isEdit}">
-			  			 
-			  			 	<ui:repeat var="document" value="#{patientBean.documentsList}">
-								<div class="col-sm-4">
-										<div class="card">
-											<div class="card-header">
-												<h:outputLabel
-													value="#{document.docName}"></h:outputLabel>
+                <h:panelGroup id="documentsPanel" rendered="#{patientBean.isEdit}">
+	                <div class="row">
+		  				<div class="col-sm-9 col-md-6 col-lg-12">  
+		    				<p:outputLabel value="Documents Uploaded"></p:outputLabel>
+		    			</div>	
+		    			<div class="col-sm-9 col-md-6 col-lg-12">  
+				  			 
+				  			 	<ui:repeat var="document" value="#{patientBean.documentsList}">
+				  			 		<div class="col-sm-4">
+											<div class="card">
+												<div class="card-header">
+													<h:outputLabel
+														value="#{document.docName}"></h:outputLabel>
+														<p:commandButton style="margin-top:2%" value="Delete Document" 
+														 action="#{patientBean.deleteDocument(document)}" update=":form1:documentsPanel"/>
+												</div>
+												<div class="card-body">
+													<a href="#{patientBean.returnFileUrl(document)}" target="_blank"><img
+														style="width: 200px; height: 200px;"
+														src="#{document.fileUrl}" /></a>
+													<br /> <a href="#{patientBean.returnFileUrl(document)}" target="_blank">Download</a>
+												</div>
 											</div>
-											<div class="card-body">
-												<a href="#{patientBean.returnFileUrl(document)}" target="_blank"><img
-													style="width: 150px; height: 150px;"
-													src="#{document.fileUrl}" /></a>
-												<br /> <a href="#{patientBean.returnFileUrl(document)}" target="_blank">Download</a>
-											</div>
-										</div>
-								</div>
-							</ui:repeat>		
-			  			 
-			  			 </h:panelGroup>	                      		                      
-                     </div>
-                </div>
-	  			
+										</div>	
+								</ui:repeat>
+				  			                    		                      
+	                     </div>
+	                </div>
+	  			 </h:panelGroup>	  
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
 	    				 <p:commandButton style="margin-top:2%" value="Update Patient" rendered="#{patientBean.isEdit}"  action="#{patientBean.save}" update="@form"/>

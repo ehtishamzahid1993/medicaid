@@ -73,7 +73,7 @@ public class ReferralModelImpl
 		{"referralId", Types.BIGINT}, {"dateReferred", Types.TIMESTAMP},
 		{"submitDate", Types.TIMESTAMP}, {"approvedDate", Types.TIMESTAMP},
 		{"pendingDate", Types.TIMESTAMP}, {"status", Types.VARCHAR},
-		{"cocEmailSent", Types.VARCHAR}, {"resLiability", Types.VARCHAR},
+		{"cocEmailSent", Types.VARCHAR}, {"resLiability", Types.DOUBLE},
 		{"emailSentDueDate", Types.TIMESTAMP}, {"facilityAdmin", Types.VARCHAR},
 		{"facilities", Types.VARCHAR}, {"patientId", Types.BIGINT},
 		{"noteId", Types.BIGINT}, {"createDate", Types.TIMESTAMP},
@@ -92,7 +92,7 @@ public class ReferralModelImpl
 		TABLE_COLUMNS_MAP.put("pendingDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("cocEmailSent", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("resLiability", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("resLiability", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("emailSentDueDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("facilityAdmin", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facilities", Types.VARCHAR);
@@ -105,7 +105,7 @@ public class ReferralModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table Medicaid_Referral (referralId LONG not null primary key,dateReferred DATE null,submitDate DATE null,approvedDate DATE null,pendingDate DATE null,status VARCHAR(75) null,cocEmailSent VARCHAR(75) null,resLiability VARCHAR(75) null,emailSentDueDate DATE null,facilityAdmin VARCHAR(75) null,facilities VARCHAR(75) null,patientId LONG,noteId LONG,createDate DATE null,createdBy VARCHAR(75) null,modifiedDate DATE null,modifiedBy VARCHAR(75) null)";
+		"create table Medicaid_Referral (referralId LONG not null primary key,dateReferred DATE null,submitDate DATE null,approvedDate DATE null,pendingDate DATE null,status VARCHAR(75) null,cocEmailSent VARCHAR(75) null,resLiability DOUBLE,emailSentDueDate DATE null,facilityAdmin VARCHAR(75) null,facilities VARCHAR(75) null,patientId LONG,noteId LONG,createDate DATE null,createdBy VARCHAR(75) null,modifiedDate DATE null,modifiedBy VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table Medicaid_Referral";
 
@@ -341,7 +341,7 @@ public class ReferralModelImpl
 		attributeGetterFunctions.put("resLiability", Referral::getResLiability);
 		attributeSetterBiConsumers.put(
 			"resLiability",
-			(BiConsumer<Referral, String>)Referral::setResLiability);
+			(BiConsumer<Referral, Double>)Referral::setResLiability);
 		attributeGetterFunctions.put(
 			"emailSentDueDate", Referral::getEmailSentDueDate);
 		attributeSetterBiConsumers.put(
@@ -482,17 +482,12 @@ public class ReferralModelImpl
 
 	@JSON
 	@Override
-	public String getResLiability() {
-		if (_resLiability == null) {
-			return "";
-		}
-		else {
-			return _resLiability;
-		}
+	public double getResLiability() {
+		return _resLiability;
 	}
 
 	@Override
-	public void setResLiability(String resLiability) {
+	public void setResLiability(double resLiability) {
 		_resLiability = resLiability;
 	}
 
@@ -803,12 +798,6 @@ public class ReferralModelImpl
 
 		referralCacheModel.resLiability = getResLiability();
 
-		String resLiability = referralCacheModel.resLiability;
-
-		if ((resLiability != null) && (resLiability.length() == 0)) {
-			referralCacheModel.resLiability = null;
-		}
-
 		Date emailSentDueDate = getEmailSentDueDate();
 
 		if (emailSentDueDate != null) {
@@ -956,7 +945,7 @@ public class ReferralModelImpl
 	private String _status;
 	private String _originalStatus;
 	private String _cocEmailSent;
-	private String _resLiability;
+	private double _resLiability;
 	private Date _emailSentDueDate;
 	private String _facilityAdmin;
 	private String _facilities;

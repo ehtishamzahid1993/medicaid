@@ -160,15 +160,14 @@ public interface ReferralModel extends BaseModel<Referral> {
 	 *
 	 * @return the res liability of this referral
 	 */
-	@AutoEscape
-	public String getResLiability();
+	public double getResLiability();
 
 	/**
 	 * Sets the res liability of this referral.
 	 *
 	 * @param resLiability the res liability of this referral
 	 */
-	public void setResLiability(String resLiability);
+	public void setResLiability(double resLiability);
 
 	/**
 	 * Returns the email sent due date of this referral.

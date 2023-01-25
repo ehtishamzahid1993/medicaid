@@ -43,66 +43,50 @@
 					                </div>
 					            </f:facet>
 					
-					            <p:column headerText="ReferredId" sortBy="#{referral.referralId}" filterBy="#{referral.referralId}" filterMatchMode="contains">
+					            <p:column headerText="Referred ID" filterBy="#{referral.referralId}" filterMatchMode="contains">
 					                <h:outputText value="#{referral.referralId}" />
 					            </p:column>
 					
-					            <p:column field="centers" headerText="Centers" filterMatchMode="exact"
-					                sortBy="#{referralBean.facilities.name}">
-					                <f:facet name="filter">
-					                    <p:selectOneMenu onchange="PF('referralTable').filter()" styleClass="ui-custom-filter">
-					                        <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
-					                        <f:selectItems value="#{referralBean.facilities}"   />
-					                    </p:selectOneMenu>
-					                </f:facet>
+					            <p:column field="centers" headerText="Centers" >
+					                
 					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityName(referral.facilities)}" />
 					            </p:column>
 					            
-					             <p:column field="facilityContant" headerText="Facility Contact" filterMatchMode="exact"
-					                sortBy="#{referralBean.facilityAdminList.userName}">
-					                <f:facet name="filter">
-					                    <p:selectOneMenu onchange="PF('referralTable').filter()" styleClass="ui-custom-filter">
-					                        <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
-					                        <f:selectItems value="#{referralBean.facilityAdminList}" />
-					                    </p:selectOneMenu>
-					                </f:facet>
-					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referral.facilityAdmin}" />
+					             <p:column field="facilityContant" headerText="Facility Contact" filterBy="#{referral.facilityAdmin}" filterMatchMode="contains" >
+					               
+					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityAdmin(referral.facilityAdmin)}" />
 					            </p:column>
 					            
-					            <p:column field="patient" headerText="Patient" filterMatchMode="exact"
-					                sortBy="#{referralBean.patientList.firstName}">
-					                <f:facet name="filter">
-					                    <p:selectOneMenu onchange="PF('referralTable').filter()" styleClass="ui-custom-filter">
-					                        <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
-					                        <f:selectItems value="#{referralBean.patientList}" />
-					                    </p:selectOneMenu>
-					                </f:facet>
-					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityName(referral.facilities)}" />
+					            <p:column field="patient" headerText="Patient" filterBy="#{referral.patientId}" filterMatchMode="contains" >
+					               
+					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getPatientName(referral.patientId)}" />
 					            </p:column>
 					
 					            <p:column field="submitDate" headerText="Submit Date" filterMatchMode="between">
 					                <f:facet name="filter">
 					                    <p:datePicker selectionMode="range" onchange="PF('referralTable').filter()" />
 					                </f:facet>
-					                <h:outputText value="#{referral.submitDate}" />
+					                <h:outputText value="#{referral.submitDate}">
+					                	 <f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
+					                </h:outputText>
 					            </p:column>
 					
-								<p:column headerText="Res. Liability" sortBy="#{referral.resLiability}" filterBy="#{referral.resLiability}" filterMatchMode="contains">
-					                <h:outputText value="#{referral.resLiability}" />
+								<p:column headerText="Res. Liability" filterBy="#{referral.resLiability}" filterMatchMode="contains" >
+					                <h:outputText value="$#{referral.resLiability}">
+					                </h:outputText>
 					            </p:column>
 					            
-					            <p:column headerText="COC Email Sent" sortBy="#{referral.cocEmailSent}" filterBy="#{referral.cocEmailSent}" filterMatchMode="contains">
-					                <h:outputText value="#{referral.cocEmailSent}" />
+					            <p:column field="cocEmailSent" headerText="COC Email Sent" filterMatchMode="between" >
+					             	<f:facet name="filter1">
+					                    <p:datePicker selectionMode="range" onchange="PF('referralTable').filter()" />
+					                </f:facet>
+					                <h:outputText value="#{referral.emailSentDueDate}" >
+					                	<f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
+					                </h:outputText>
 					            </p:column>	
 					            
-					            <p:column field="status" headerText="Status" filterMatchMode="exact"
-					                sortBy="#{referralBean.referralStatus}">
-					                <f:facet name="filter">
-					                    <p:selectOneMenu onchange="PF('referralTable').filter()" styleClass="ui-custom-filter">
-					                        <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
-					                        <f:selectItems value="#{referralBean.referralStatus}" />
-					                    </p:selectOneMenu>
-					                </f:facet>
+					            <p:column field="status" headerText="Status" filterBy="#{referral.status}" filterMatchMode="contains">
+					               
 					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referral.status}" />
 					            </p:column>
 					

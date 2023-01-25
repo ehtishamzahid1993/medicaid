@@ -27,76 +27,117 @@
   			<h:form>
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Name*"></p:outputLabel>
+	    				<p:outputLabel value="Referral Centers*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="name" value="#{referralBean.facility.name}" required="true" ></p:inputText>
+	    				 <p:selectManyMenu id="advanced" value="#{referralBean.selectedFacilities}"
+                            converter="#{facilityConverter}" 
+                            var="c" showCheckbox="true" required="true">
+			            <f:selectItems value="#{referralBean.facilities}" var="country" itemLabel="#{country.name}"
+			                            itemValue="#{country}" />
+			
+			
+			            <p:column>
+			                <h:outputText value="#{c.name}"/>
+			            </p:column>
+			        </p:selectManyMenu>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Address*"></p:outputLabel>
+	    				<p:outputLabel value="Date Referred*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="address" value="#{referralBean.facility.address}" required="true" ></p:inputText>
+	    				 <p:datePicker style="width:100%;" id="dateReferred" required="true" value="#{referralBean.referral.dateReferred}"  maxdate="#{referralBean.todaysDate}"/>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="City*"></p:outputLabel>
+	    				<p:outputLabel value="Facility Contact*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="city" value="#{referralBean.facility.city}" required="true" ></p:inputText>
+	    				 <p:selectOneMenu id="facilityAdmin" value="#{referralBean.referral.facilityAdmin}" required="true">
+		                    <f:selectItem itemLabel="Select One" itemValue=""/>
+		                    <f:selectItems value="#{referralBean.facilityAdminList}" var="c" 
+		                    itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.screenName}"/>
+		                </p:selectOneMenu>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="State*"></p:outputLabel>
+	    				<p:outputLabel value="Patient*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="state" value="#{referralBean.facility.state}" required="true" ></p:inputText>
+	    				 <p:selectOneMenu id="patient" value="#{referralBean.referral.patientId}" required="true">
+		                    <f:selectItem itemLabel="Select One" itemValue=""/>
+		                    <f:selectItems value="#{referralBean.patientList}" var="c" 
+		                    itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.patientId}"/>
+		                </p:selectOneMenu>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="ZipCode*"></p:outputLabel>
+	    				<p:outputLabel value="Submit Date*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="zipcode" value="#{referralBean.facility.zipcode}" required="true" ></p:inputText>
+	    				 <p:datePicker style="width:100%;" id="submitDate" required="true" value="#{referralBean.referral.submitDate}"  maxdate="#{referralBean.todaysDate}"/>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Phone*"></p:outputLabel>
+	    				<p:outputLabel value="Approved Date"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="phone" value="#{referralBean.facility.phoneNumber}" required="true" ></p:inputText>
+	    				 <p:datePicker style="width:100%;" id="approvedDate" value="#{referralBean.referral.approvedDate}"  maxdate="#{referralBean.todaysDate}"/>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Fax"></p:outputLabel>
+	    				<p:outputLabel value="Pending Date"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="faxNumber" value="#{referralBean.facility.faxNumber}" ></p:inputText>
+	    				 <p:datePicker style="width:100%;" id="pendingDate" value="#{referralBean.referral.pendingDate}"  maxdate="#{referralBean.todaysDate}"/>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Email"></p:outputLabel>
+	    				<p:outputLabel value="Status*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="email" value="#{referralBean.facility.email}" ></p:inputText>
+	    				 <p:selectOneMenu id="status" value="#{referralBean.referral.status}" required="true">
+		                    <f:selectItem itemLabel="Select One" itemValue=""/>
+		                    <f:selectItems value="#{referralBean.referralStatus}"/>
+		                </p:selectOneMenu>
 	    			</div>    			
 	  			</div>
+	  			
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Point Of Contact"></p:outputLabel>
+	    				<p:outputLabel value="Res. Liability"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="pointOfContact" value="#{referralBean.facility.pointOfContact}" ></p:inputText>
+	    				<p:inputNumber id="resLiability" value="#{referralBean.referral.resLiability}" symbol="$"
+                                symbolPosition="p"  emptyValue="empty" modifyValueOnWheel="false"
+                                decimalSeparator="." thousandSeparator=","/>
 	    			</div>    			
 	  			</div>
+	  			
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="COC Email Sent Date"></p:outputLabel>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				 <p:datePicker style="width:100%;" id="emailSentDueDate" value="#{referralBean.referral.emailSentDueDate}"  maxdate="#{referralBean.todaysDate}"/>
+	    			</div>    			
+	  			</div>
+	  		
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
 	    				 <p:commandButton style="margin-top:2%" value="Update Facility" rendered="#{referralBean.isEdit}"  action="#{referralBean.save}" update="@form"/>

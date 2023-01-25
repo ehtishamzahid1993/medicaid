@@ -24,6 +24,7 @@ public class HomeUtil implements Serializable {
 	private Long approvedReferrals=3L;
 	private Long deniedReferrals=4L;
 	private Long withdrawnReferral=5L;
+	private Long pendingReferral=6L;
 	
 	@PostConstruct
 	public void init() {
@@ -33,6 +34,7 @@ public class HomeUtil implements Serializable {
 		approvedReferrals=(long) ReferralLocalServiceUtil.findByStatus("Approved").size();
 		deniedReferrals=(long) ReferralLocalServiceUtil.findByStatus("Denied").size();
 		withdrawnReferral=(long) ReferralLocalServiceUtil.findByStatus("Withdrawn").size();
+		pendingReferral=(long) ReferralLocalServiceUtil.findByStatus("Pending").size();
 	
 	}
 	
@@ -87,6 +89,14 @@ public class HomeUtil implements Serializable {
 
 	public void setWithdrawnReferral(Long withdrawnReferral) {
 		this.withdrawnReferral = withdrawnReferral;
+	}
+
+	public Long getPendingReferral() {
+		return pendingReferral;
+	}
+
+	public void setPendingReferral(Long pendingReferral) {
+		this.pendingReferral = pendingReferral;
 	}
 	
 	

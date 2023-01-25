@@ -14,7 +14,7 @@
 		<column name="pendingDate" type="Date" />
 		<column name="status" type="String" />
 		<column name="cocEmailSent" type="String" />
-		<column name="resLiability" type="String" />
+		<column name="resLiability" type="double" />
 		<column name="emailSentDueDate" type="Date" />
 		
 		<column name="facilityAdmin" type="String" />

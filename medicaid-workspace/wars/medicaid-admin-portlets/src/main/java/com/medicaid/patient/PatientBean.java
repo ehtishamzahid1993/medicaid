@@ -2,6 +2,7 @@ package com.medicaid.patient;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.faces.portal.context.LiferayPortletHelperUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -127,6 +128,17 @@ public class PatientBean implements Serializable {
 		}
 		
 	}
+	
+	public void deleteDocument(Document document)
+	{
+		try {
+			DLFileEntryLocalServiceUtil.deleteDLFileEntry(document.getFileId());
+			DocumentLocalServiceUtil.deleteDocument(document);
+			log.info("document deleted");
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+	}
 
 	
 	public String returnFileUrl(Document document) {
@@ -142,32 +154,6 @@ public class PatientBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
-
-
-	/*private void setDLFileEntries() {
-		try {
-			if(isEdit && patient!=null) {
-				String entries=patient.getDocumentIds();
-				if(entries!=null && !entries.trim().equals(""))
-				{
-					String[] fileIds=entries.split(",");
-					for (int i = 0; i < fileIds.length; i++) {
-						try {
-							DLFileEntry dlFileEntry=DLFileEntryLocalServiceUtil.getDLFileEntry(Long.valueOf(fileIds[i]));
-							if(dlFileEntry!=null)
-							{
-								fileEntries.add(dlFileEntry);
-							}
-						} catch (Exception e) {
-							log.error(FormattingUtil.getMessage(e));
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.error(FormattingUtil.getMessage(e));
-		}
-	}*/
 
 
 	private void setFacilities() {
@@ -243,9 +229,10 @@ public class PatientBean implements Serializable {
 					log.error(FormattingUtil.getMessage(e));
 				}
 			}
-			patient.setReferralId(0L);
+			
 			patient.setFacilityId(selectedFacility);
 		}
+		patient.setReferralId(0L); // need to remove
 		try {
 			PatientLocalServiceUtil.updatePatient(patient);
 			log.info("patient saved");
@@ -253,7 +240,6 @@ public class PatientBean implements Serializable {
 			log.error(FormattingUtil.getMessage(e));
 		}
 		SessionUtil.removeSessionAttribute("patient");
-		log.info(SessionUtil.getSessionAttribute("patient"));
 		SessionUtil.setSessionAttribute("isEdit", false);
 		return "view?faces-redirect=true";
 	}

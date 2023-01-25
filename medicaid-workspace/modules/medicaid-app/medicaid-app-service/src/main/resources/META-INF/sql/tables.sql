@@ -85,7 +85,7 @@ create table Medicaid_Referral (
 	pendingDate DATE null,
 	status VARCHAR(75) null,
 	cocEmailSent VARCHAR(75) null,
-	resLiability VARCHAR(75) null,
+	resLiability DOUBLE,
 	emailSentDueDate DATE null,
 	facilityAdmin VARCHAR(75) null,
 	facilities VARCHAR(75) null,

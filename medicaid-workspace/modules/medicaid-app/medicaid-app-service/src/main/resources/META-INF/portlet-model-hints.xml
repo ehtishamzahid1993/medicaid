@@ -83,7 +83,7 @@
 		<field name="pendingDate" type="Date" />
 		<field name="status" type="String" />
 		<field name="cocEmailSent" type="String" />
-		<field name="resLiability" type="String" />
+		<field name="resLiability" type="double" />
 		<field name="emailSentDueDate" type="Date" />
 		<field name="facilityAdmin" type="String" />
 		<field name="facilities" type="String" />

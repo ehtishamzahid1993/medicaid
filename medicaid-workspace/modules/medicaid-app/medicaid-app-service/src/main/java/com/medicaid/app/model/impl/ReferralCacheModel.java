@@ -151,12 +151,7 @@ public class ReferralCacheModel
 			referralImpl.setCocEmailSent(cocEmailSent);
 		}
 
-		if (resLiability == null) {
-			referralImpl.setResLiability("");
-		}
-		else {
-			referralImpl.setResLiability(resLiability);
-		}
+		referralImpl.setResLiability(resLiability);
 
 		if (emailSentDueDate == Long.MIN_VALUE) {
 			referralImpl.setEmailSentDueDate(null);
@@ -224,7 +219,8 @@ public class ReferralCacheModel
 		pendingDate = objectInput.readLong();
 		status = objectInput.readUTF();
 		cocEmailSent = objectInput.readUTF();
-		resLiability = objectInput.readUTF();
+
+		resLiability = objectInput.readDouble();
 		emailSentDueDate = objectInput.readLong();
 		facilityAdmin = objectInput.readUTF();
 		facilities = objectInput.readUTF();
@@ -260,13 +256,7 @@ public class ReferralCacheModel
 			objectOutput.writeUTF(cocEmailSent);
 		}
 
-		if (resLiability == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(resLiability);
-		}
-
+		objectOutput.writeDouble(resLiability);
 		objectOutput.writeLong(emailSentDueDate);
 
 		if (facilityAdmin == null) {
@@ -312,7 +302,7 @@ public class ReferralCacheModel
 	public long pendingDate;
 	public String status;
 	public String cocEmailSent;
-	public String resLiability;
+	public double resLiability;
 	public long emailSentDueDate;
 	public String facilityAdmin;
 	public String facilities;

@@ -157,11 +157,11 @@ public class ReferralSoap implements Serializable {
 		_cocEmailSent = cocEmailSent;
 	}
 
-	public String getResLiability() {
+	public double getResLiability() {
 		return _resLiability;
 	}
 
-	public void setResLiability(String resLiability) {
+	public void setResLiability(double resLiability) {
 		_resLiability = resLiability;
 	}
 
@@ -244,7 +244,7 @@ public class ReferralSoap implements Serializable {
 	private Date _pendingDate;
 	private String _status;
 	private String _cocEmailSent;
-	private String _resLiability;
+	private double _resLiability;
 	private Date _emailSentDueDate;
 	private String _facilityAdmin;
 	private String _facilities;

@@ -107,7 +107,7 @@ public class ReferralWrapper
 			setCocEmailSent(cocEmailSent);
 		}
 
-		String resLiability = (String)attributes.get("resLiability");
+		Double resLiability = (Double)attributes.get("resLiability");
 
 		if (resLiability != null) {
 			setResLiability(resLiability);
@@ -324,7 +324,7 @@ public class ReferralWrapper
 	 * @return the res liability of this referral
 	 */
 	@Override
-	public String getResLiability() {
+	public double getResLiability() {
 		return model.getResLiability();
 	}
 
@@ -509,7 +509,7 @@ public class ReferralWrapper
 	 * @param resLiability the res liability of this referral
 	 */
 	@Override
-	public void setResLiability(String resLiability) {
+	public void setResLiability(double resLiability) {
 		model.setResLiability(resLiability);
 	}
 

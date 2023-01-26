@@ -32,5 +32,9 @@
 			<finder-column name="status" />
 		</finder>
 		
+		<finder name="Facilities" return-type="Collection">
+			<finder-column name="facilities" />
+		</finder>
+		
 	</entity>
 </service-builder-import>

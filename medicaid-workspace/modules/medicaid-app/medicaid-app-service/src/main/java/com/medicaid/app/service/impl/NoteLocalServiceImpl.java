@@ -15,8 +15,10 @@
 package com.medicaid.app.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
+import com.medicaid.app.model.Note;
 import com.medicaid.app.service.base.NoteLocalServiceBaseImpl;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -44,4 +46,8 @@ public class NoteLocalServiceImpl extends NoteLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>com.medicaid.app.service.NoteLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.medicaid.app.service.NoteLocalServiceUtil</code>.
 	 */
+	
+	public List<Note> findByReferralId(Long referralId){
+		return notePersistence.findByReferralId(referralId);
+	}
 }

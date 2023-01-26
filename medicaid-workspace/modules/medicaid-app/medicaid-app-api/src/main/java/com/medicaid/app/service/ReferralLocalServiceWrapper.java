@@ -201,6 +201,13 @@ public class ReferralLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.medicaid.app.model.Referral> findByFacilities(
+		String facilities) {
+
+		return _referralLocalService.findByFacilities(facilities);
+	}
+
+	@Override
 	public java.util.List<com.medicaid.app.model.Referral> findByStatus(
 		String status) {
 

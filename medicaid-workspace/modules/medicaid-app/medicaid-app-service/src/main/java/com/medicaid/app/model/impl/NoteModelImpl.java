@@ -104,6 +104,10 @@ public class NoteModelImpl extends BaseModelImpl<Note> implements NoteModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	public static final long REFERRALID_COLUMN_BITMASK = 1L;
+
+	public static final long NOTEID_COLUMN_BITMASK = 2L;
+
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
 	}
@@ -328,7 +332,19 @@ public class NoteModelImpl extends BaseModelImpl<Note> implements NoteModel {
 
 	@Override
 	public void setReferralId(Long referralId) {
+		_columnBitmask |= REFERRALID_COLUMN_BITMASK;
+
+		if (!_setOriginalReferralId) {
+			_setOriginalReferralId = true;
+
+			_originalReferralId = _referralId;
+		}
+
 		_referralId = referralId;
+	}
+
+	public Long getOriginalReferralId() {
+		return _originalReferralId;
 	}
 
 	@JSON
@@ -416,6 +432,10 @@ public class NoteModelImpl extends BaseModelImpl<Note> implements NoteModel {
 	@Override
 	public void setModifiedBy(String modifiedBy) {
 		_modifiedBy = modifiedBy;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -520,7 +540,13 @@ public class NoteModelImpl extends BaseModelImpl<Note> implements NoteModel {
 	public void resetOriginalValues() {
 		NoteModelImpl noteModelImpl = this;
 
+		noteModelImpl._originalReferralId = noteModelImpl._referralId;
+
+		noteModelImpl._setOriginalReferralId = false;
+
 		noteModelImpl._setModifiedDate = false;
+
+		noteModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -658,6 +684,8 @@ public class NoteModelImpl extends BaseModelImpl<Note> implements NoteModel {
 
 	private long _noteId;
 	private Long _referralId;
+	private Long _originalReferralId;
+	private boolean _setOriginalReferralId;
 	private Date _commentDate;
 	private String _comments;
 	private Date _createDate;
@@ -665,6 +693,7 @@ public class NoteModelImpl extends BaseModelImpl<Note> implements NoteModel {
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _modifiedBy;
+	private long _columnBitmask;
 	private Note _escapedModel;
 
 }

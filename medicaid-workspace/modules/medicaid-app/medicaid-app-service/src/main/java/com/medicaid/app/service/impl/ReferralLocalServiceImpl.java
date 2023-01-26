@@ -61,4 +61,13 @@ static Log log = LogFactoryUtil.getLog(Patient.class);
 		}
 		return null;
 	}
+	
+	public List<Referral> findByFacilities(String facilities){
+		try {
+			return referralPersistence.findByFacilities(facilities);
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		return null;
+	}
 }

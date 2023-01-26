@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.medicaid.liferay.model.CustomQuery">
+		<field name="sqlKey" type="String" />
+		<field name="sqlQuery" type="String" />
+	</model>
+</model-hints>

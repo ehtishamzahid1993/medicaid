@@ -168,7 +168,7 @@ public class PatientWrapper
 			setDocumentIds(documentIds);
 		}
 
-		Long referralId = (Long)attributes.get("referralId");
+		String referralId = (String)attributes.get("referralId");
 
 		if (referralId != null) {
 			setReferralId(referralId);
@@ -401,7 +401,7 @@ public class PatientWrapper
 	 * @return the referral ID of this patient
 	 */
 	@Override
-	public Long getReferralId() {
+	public String getReferralId() {
 		return model.getReferralId();
 	}
 
@@ -656,7 +656,7 @@ public class PatientWrapper
 	 * @param referralId the referral ID of this patient
 	 */
 	@Override
-	public void setReferralId(Long referralId) {
+	public void setReferralId(String referralId) {
 		model.setReferralId(referralId);
 	}
 

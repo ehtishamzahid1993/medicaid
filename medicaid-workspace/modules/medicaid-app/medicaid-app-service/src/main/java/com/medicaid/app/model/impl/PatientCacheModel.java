@@ -207,7 +207,12 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 			patientImpl.setDocumentIds(documentIds);
 		}
 
-		patientImpl.setReferralId(referralId);
+		if (referralId == null) {
+			patientImpl.setReferralId("");
+		}
+		else {
+			patientImpl.setReferralId(referralId);
+		}
 
 		if (facilityId == null) {
 			patientImpl.setFacilityId("");
@@ -270,8 +275,7 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 		state = objectInput.readUTF();
 		zipCode = objectInput.readUTF();
 		documentIds = objectInput.readUTF();
-
-		referralId = objectInput.readLong();
+		referralId = objectInput.readUTF();
 		facilityId = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		createdBy = objectInput.readUTF();
@@ -356,7 +360,12 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 			objectOutput.writeUTF(documentIds);
 		}
 
-		objectOutput.writeLong(referralId);
+		if (referralId == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(referralId);
+		}
 
 		if (facilityId == null) {
 			objectOutput.writeUTF("");
@@ -400,7 +409,7 @@ public class PatientCacheModel implements CacheModel<Patient>, Externalizable {
 	public String state;
 	public String zipCode;
 	public String documentIds;
-	public long referralId;
+	public String referralId;
 	public String facilityId;
 	public long createDate;
 	public String createdBy;

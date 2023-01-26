@@ -12,23 +12,28 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.medicaid.app.model.Facility;
+import com.medicaid.app.model.Note;
 import com.medicaid.app.model.Patient;
 import com.medicaid.app.model.Referral;
 import com.medicaid.app.service.FacilityLocalServiceUtil;
+import com.medicaid.app.service.NoteLocalServiceUtil;
 import com.medicaid.app.service.PatientLocalServiceUtil;
 import com.medicaid.app.service.ReferralLocalServiceUtil;
 import com.medicaid.common.util.FormattingUtil;
 import com.medicaid.common.util.SessionUtil;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "referralBean")
 @ViewScoped
@@ -51,6 +56,11 @@ public class ReferralBean implements Serializable {
 
 	private List<String> selectedFacilities=new ArrayList<String>();
 	private Date todaysDate=new Date();
+	private List<Note> notesList;
+	private String notes="";
+	private Note note;
+	
+	private Boolean editReferral=true;
 
 	
 	
@@ -77,11 +87,17 @@ public class ReferralBean implements Serializable {
 		referralStatus.add("Denied");
 		referralStatus.add("Withdrawn");
 		referralStatus.add("Pending");
-		
+		notesList=new ArrayList<Note>();
 		
 		try {
 			referral=(Referral) SessionUtil.getSessionAttribute("referral");
 			isEdit= (Boolean) SessionUtil.getSessionAttribute("isEdit");
+			if(isEdit==null) {
+				isEdit=false;
+			}
+			
+			log.info("isEdit "+isEdit);
+			log.info("referral "+referral);
 			
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
@@ -97,10 +113,34 @@ public class ReferralBean implements Serializable {
 		}catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
+		try {
+			setNotes();
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		if(referral!=null)
+		{	
+			if(isEdit) {
+				if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
+					editReferral=false;
+				}
+			}
+		}
 		
 	
 	}
 	
+	private void setNotes() {
+		try {
+			if(isEdit && referral!=null) {
+				notesList=NoteLocalServiceUtil.findByReferralId(referral.getReferralId());
+			}
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		
+	}
+
 	private void setFacilities() {
 		if(isEdit && referral!=null) {
 		String facilityIds=referral.getFacilities();
@@ -119,8 +159,21 @@ public class ReferralBean implements Serializable {
 		}
 	}
 	
+	public String getNoteDate(Date commentDate) {
+		return getStringDate(commentDate, "dd/MM/yyyy");
+	}
 	
-	
+	public static String getStringDate(Date date, String format) {
+		try {
+			if (date != null) {
+				SimpleDateFormat formatter = new SimpleDateFormat(format);
+				return formatter.format(date);
+			}
+		} catch (Exception ex) {
+			
+		}
+		return null;
+	}
 	
 	public String save()
 	{
@@ -149,6 +202,20 @@ public class ReferralBean implements Serializable {
 		
 		
 		log.info("referral "+referral);
+		try {
+			if(notes!=null && !notes.trim().equals("")) {
+				note=NoteLocalServiceUtil.createNote(CounterLocalServiceUtil.increment(Note.class.getCanonicalName()));
+				note.setCommentDate(new Date());
+				note.setReferralId(referral.getReferralId());
+				note.setComments(notes);
+				NoteLocalServiceUtil.updateNote(note);
+			}
+			
+			
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		log.info("note "+note);
 		ReferralLocalServiceUtil.updateReferral(referral);
 		SessionUtil.removeSessionAttribute("referral");
 		SessionUtil.setSessionAttribute("isEdit", false);
@@ -161,12 +228,31 @@ public class ReferralBean implements Serializable {
 		log.info("referral "+referral );		
 		return "addEdit?faces-redirect=true";
 	}
+	
+	public String redirectToViewPage() {
+		log.info("inside add referral");		
+		log.info("referral "+referral );		
+		return "view?faces-redirect=true";
+	}
 	public String editReferral()
 	{
 		isEdit=true;
-		SessionUtil.setSessionAttribute("referral", referral);
-		SessionUtil.setSessionAttribute("isEdit", true);
-		return "addEdit?faces-redirect=true";
+		log.info("referral "+referral);
+		
+		if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
+			FacesMessage message = new FacesMessage("Cannot Edit Denied and Withdrawn Referrals");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return null;
+		}else
+		{
+			SessionUtil.setSessionAttribute("referral", referral);
+			SessionUtil.setSessionAttribute("isEdit", true);
+			return "addEdit?faces-redirect=true";
+		}
+		
+		
+		
+		
 	}
 	
 	
@@ -327,6 +413,40 @@ public class ReferralBean implements Serializable {
 	public void setTodaysDate(Date todaysDate) {
 		this.todaysDate = todaysDate;
 	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public List<Note> getNotesList() {
+		return notesList;
+	}
+
+	public void setNotesList(List<Note> notesList) {
+		this.notesList = notesList;
+	}
+
+	public Boolean getEditReferral() {
+		return editReferral;
+	}
+
+	public void setEditReferral(Boolean editReferral) {
+		this.editReferral = editReferral;
+	}
+
+	
 	
 	
 

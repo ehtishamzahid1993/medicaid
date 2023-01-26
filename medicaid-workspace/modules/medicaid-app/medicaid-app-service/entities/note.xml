@@ -15,6 +15,10 @@
 		<column name="createdBy" type="String" />
 		<column name="modifiedDate" type="Date" />
 		<column name="modifiedBy" type="String" />
+		
+		<finder name="ReferralId" return-type="Collection">
+			<finder-column name="referralId" />
+		</finder>
 
 		
 	</entity>

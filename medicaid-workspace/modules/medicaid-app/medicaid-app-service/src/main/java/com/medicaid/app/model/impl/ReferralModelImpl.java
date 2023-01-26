@@ -121,9 +121,11 @@ public class ReferralModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long STATUS_COLUMN_BITMASK = 1L;
+	public static final long FACILITIES_COLUMN_BITMASK = 1L;
 
-	public static final long REFERRALID_COLUMN_BITMASK = 2L;
+	public static final long STATUS_COLUMN_BITMASK = 2L;
+
+	public static final long REFERRALID_COLUMN_BITMASK = 4L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -531,7 +533,17 @@ public class ReferralModelImpl
 
 	@Override
 	public void setFacilities(String facilities) {
+		_columnBitmask |= FACILITIES_COLUMN_BITMASK;
+
+		if (_originalFacilities == null) {
+			_originalFacilities = _facilities;
+		}
+
 		_facilities = facilities;
+	}
+
+	public String getOriginalFacilities() {
+		return GetterUtil.getString(_originalFacilities);
 	}
 
 	@JSON
@@ -732,6 +744,8 @@ public class ReferralModelImpl
 		ReferralModelImpl referralModelImpl = this;
 
 		referralModelImpl._originalStatus = referralModelImpl._status;
+
+		referralModelImpl._originalFacilities = referralModelImpl._facilities;
 
 		referralModelImpl._setModifiedDate = false;
 
@@ -949,6 +963,7 @@ public class ReferralModelImpl
 	private Date _emailSentDueDate;
 	private String _facilityAdmin;
 	private String _facilities;
+	private String _originalFacilities;
 	private long _patientId;
 	private long _noteId;
 	private Date _createDate;

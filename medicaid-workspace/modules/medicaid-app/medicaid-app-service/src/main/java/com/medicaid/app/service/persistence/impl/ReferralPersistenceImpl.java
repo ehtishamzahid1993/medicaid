@@ -623,6 +623,550 @@ public class ReferralPersistenceImpl
 	private static final String _FINDER_COLUMN_STATUS_STATUS_3 =
 		"(referral.status IS NULL OR referral.status = '')";
 
+	private FinderPath _finderPathWithPaginationFindByFacilities;
+	private FinderPath _finderPathWithoutPaginationFindByFacilities;
+	private FinderPath _finderPathCountByFacilities;
+
+	/**
+	 * Returns all the referrals where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @return the matching referrals
+	 */
+	@Override
+	public List<Referral> findByFacilities(String facilities) {
+		return findByFacilities(
+			facilities, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the referrals where facilities = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ReferralModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilities the facilities
+	 * @param start the lower bound of the range of referrals
+	 * @param end the upper bound of the range of referrals (not inclusive)
+	 * @return the range of matching referrals
+	 */
+	@Override
+	public List<Referral> findByFacilities(
+		String facilities, int start, int end) {
+
+		return findByFacilities(facilities, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the referrals where facilities = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ReferralModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilities the facilities
+	 * @param start the lower bound of the range of referrals
+	 * @param end the upper bound of the range of referrals (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching referrals
+	 */
+	@Override
+	public List<Referral> findByFacilities(
+		String facilities, int start, int end,
+		OrderByComparator<Referral> orderByComparator) {
+
+		return findByFacilities(
+			facilities, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the referrals where facilities = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ReferralModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilities the facilities
+	 * @param start the lower bound of the range of referrals
+	 * @param end the upper bound of the range of referrals (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching referrals
+	 */
+	@Override
+	public List<Referral> findByFacilities(
+		String facilities, int start, int end,
+		OrderByComparator<Referral> orderByComparator, boolean useFinderCache) {
+
+		facilities = Objects.toString(facilities, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByFacilities;
+				finderArgs = new Object[] {facilities};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByFacilities;
+			finderArgs = new Object[] {
+				facilities, start, end, orderByComparator
+			};
+		}
+
+		List<Referral> list = null;
+
+		if (useFinderCache) {
+			list = (List<Referral>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Referral referral : list) {
+					if (!facilities.equals(referral.getFacilities())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_REFERRAL_WHERE);
+
+			boolean bindFacilities = false;
+
+			if (facilities.isEmpty()) {
+				query.append(_FINDER_COLUMN_FACILITIES_FACILITIES_3);
+			}
+			else {
+				bindFacilities = true;
+
+				query.append(_FINDER_COLUMN_FACILITIES_FACILITIES_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				query.append(ReferralModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindFacilities) {
+					qPos.add(facilities);
+				}
+
+				list = (List<Referral>)QueryUtil.list(
+					q, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching referral
+	 * @throws NoSuchReferralException if a matching referral could not be found
+	 */
+	@Override
+	public Referral findByFacilities_First(
+			String facilities, OrderByComparator<Referral> orderByComparator)
+		throws NoSuchReferralException {
+
+		Referral referral = fetchByFacilities_First(
+			facilities, orderByComparator);
+
+		if (referral != null) {
+			return referral;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("facilities=");
+		msg.append(facilities);
+
+		msg.append("}");
+
+		throw new NoSuchReferralException(msg.toString());
+	}
+
+	/**
+	 * Returns the first referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching referral, or <code>null</code> if a matching referral could not be found
+	 */
+	@Override
+	public Referral fetchByFacilities_First(
+		String facilities, OrderByComparator<Referral> orderByComparator) {
+
+		List<Referral> list = findByFacilities(
+			facilities, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching referral
+	 * @throws NoSuchReferralException if a matching referral could not be found
+	 */
+	@Override
+	public Referral findByFacilities_Last(
+			String facilities, OrderByComparator<Referral> orderByComparator)
+		throws NoSuchReferralException {
+
+		Referral referral = fetchByFacilities_Last(
+			facilities, orderByComparator);
+
+		if (referral != null) {
+			return referral;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("facilities=");
+		msg.append(facilities);
+
+		msg.append("}");
+
+		throw new NoSuchReferralException(msg.toString());
+	}
+
+	/**
+	 * Returns the last referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching referral, or <code>null</code> if a matching referral could not be found
+	 */
+	@Override
+	public Referral fetchByFacilities_Last(
+		String facilities, OrderByComparator<Referral> orderByComparator) {
+
+		int count = countByFacilities(facilities);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Referral> list = findByFacilities(
+			facilities, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the referrals before and after the current referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param referralId the primary key of the current referral
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next referral
+	 * @throws NoSuchReferralException if a referral with the primary key could not be found
+	 */
+	@Override
+	public Referral[] findByFacilities_PrevAndNext(
+			long referralId, String facilities,
+			OrderByComparator<Referral> orderByComparator)
+		throws NoSuchReferralException {
+
+		facilities = Objects.toString(facilities, "");
+
+		Referral referral = findByPrimaryKey(referralId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Referral[] array = new ReferralImpl[3];
+
+			array[0] = getByFacilities_PrevAndNext(
+				session, referral, facilities, orderByComparator, true);
+
+			array[1] = referral;
+
+			array[2] = getByFacilities_PrevAndNext(
+				session, referral, facilities, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Referral getByFacilities_PrevAndNext(
+		Session session, Referral referral, String facilities,
+		OrderByComparator<Referral> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_REFERRAL_WHERE);
+
+		boolean bindFacilities = false;
+
+		if (facilities.isEmpty()) {
+			query.append(_FINDER_COLUMN_FACILITIES_FACILITIES_3);
+		}
+		else {
+			bindFacilities = true;
+
+			query.append(_FINDER_COLUMN_FACILITIES_FACILITIES_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ReferralModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindFacilities) {
+			qPos.add(facilities);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(referral)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Referral> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the referrals where facilities = &#63; from the database.
+	 *
+	 * @param facilities the facilities
+	 */
+	@Override
+	public void removeByFacilities(String facilities) {
+		for (Referral referral :
+				findByFacilities(
+					facilities, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(referral);
+		}
+	}
+
+	/**
+	 * Returns the number of referrals where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @return the number of matching referrals
+	 */
+	@Override
+	public int countByFacilities(String facilities) {
+		facilities = Objects.toString(facilities, "");
+
+		FinderPath finderPath = _finderPathCountByFacilities;
+
+		Object[] finderArgs = new Object[] {facilities};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_REFERRAL_WHERE);
+
+			boolean bindFacilities = false;
+
+			if (facilities.isEmpty()) {
+				query.append(_FINDER_COLUMN_FACILITIES_FACILITIES_3);
+			}
+			else {
+				bindFacilities = true;
+
+				query.append(_FINDER_COLUMN_FACILITIES_FACILITIES_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindFacilities) {
+					qPos.add(facilities);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_FACILITIES_FACILITIES_2 =
+		"referral.facilities = ?";
+
+	private static final String _FINDER_COLUMN_FACILITIES_FACILITIES_3 =
+		"(referral.facilities IS NULL OR referral.facilities = '')";
+
 	public ReferralPersistenceImpl() {
 		setModelClass(Referral.class);
 
@@ -897,6 +1441,12 @@ public class ReferralPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByStatus, args);
 
+			args = new Object[] {referralModelImpl.getFacilities()};
+
+			finderCache.removeResult(_finderPathCountByFacilities, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByFacilities, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -919,6 +1469,25 @@ public class ReferralPersistenceImpl
 				finderCache.removeResult(_finderPathCountByStatus, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByStatus, args);
+			}
+
+			if ((referralModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByFacilities.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					referralModelImpl.getOriginalFacilities()
+				};
+
+				finderCache.removeResult(_finderPathCountByFacilities, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByFacilities, args);
+
+				args = new Object[] {referralModelImpl.getFacilities()};
+
+				finderCache.removeResult(_finderPathCountByFacilities, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByFacilities, args);
 			}
 		}
 
@@ -1226,6 +1795,25 @@ public class ReferralPersistenceImpl
 		_finderPathCountByStatus = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByFacilities = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, ReferralImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFacilities",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByFacilities = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, ReferralImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByFacilities",
+			new String[] {String.class.getName()},
+			ReferralModelImpl.FACILITIES_COLUMN_BITMASK);
+
+		_finderPathCountByFacilities = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFacilities",
 			new String[] {String.class.getName()});
 	}
 

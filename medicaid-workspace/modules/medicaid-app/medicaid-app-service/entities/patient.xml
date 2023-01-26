@@ -23,7 +23,7 @@
 		
 		
 		<column name="documentIds" type="String" />
-		<column name="referralId" type="Long" />
+		<column name="referralId" type="String" />
 		<column name="facilityId" type="String" />
 		
 

@@ -289,6 +289,174 @@ public class ReferralUtil {
 	}
 
 	/**
+	 * Returns all the referrals where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @return the matching referrals
+	 */
+	public static List<Referral> findByFacilities(String facilities) {
+		return getPersistence().findByFacilities(facilities);
+	}
+
+	/**
+	 * Returns a range of all the referrals where facilities = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ReferralModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilities the facilities
+	 * @param start the lower bound of the range of referrals
+	 * @param end the upper bound of the range of referrals (not inclusive)
+	 * @return the range of matching referrals
+	 */
+	public static List<Referral> findByFacilities(
+		String facilities, int start, int end) {
+
+		return getPersistence().findByFacilities(facilities, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the referrals where facilities = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ReferralModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilities the facilities
+	 * @param start the lower bound of the range of referrals
+	 * @param end the upper bound of the range of referrals (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching referrals
+	 */
+	public static List<Referral> findByFacilities(
+		String facilities, int start, int end,
+		OrderByComparator<Referral> orderByComparator) {
+
+		return getPersistence().findByFacilities(
+			facilities, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the referrals where facilities = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ReferralModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilities the facilities
+	 * @param start the lower bound of the range of referrals
+	 * @param end the upper bound of the range of referrals (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching referrals
+	 */
+	public static List<Referral> findByFacilities(
+		String facilities, int start, int end,
+		OrderByComparator<Referral> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByFacilities(
+			facilities, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching referral
+	 * @throws NoSuchReferralException if a matching referral could not be found
+	 */
+	public static Referral findByFacilities_First(
+			String facilities, OrderByComparator<Referral> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchReferralException {
+
+		return getPersistence().findByFacilities_First(
+			facilities, orderByComparator);
+	}
+
+	/**
+	 * Returns the first referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching referral, or <code>null</code> if a matching referral could not be found
+	 */
+	public static Referral fetchByFacilities_First(
+		String facilities, OrderByComparator<Referral> orderByComparator) {
+
+		return getPersistence().fetchByFacilities_First(
+			facilities, orderByComparator);
+	}
+
+	/**
+	 * Returns the last referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching referral
+	 * @throws NoSuchReferralException if a matching referral could not be found
+	 */
+	public static Referral findByFacilities_Last(
+			String facilities, OrderByComparator<Referral> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchReferralException {
+
+		return getPersistence().findByFacilities_Last(
+			facilities, orderByComparator);
+	}
+
+	/**
+	 * Returns the last referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching referral, or <code>null</code> if a matching referral could not be found
+	 */
+	public static Referral fetchByFacilities_Last(
+		String facilities, OrderByComparator<Referral> orderByComparator) {
+
+		return getPersistence().fetchByFacilities_Last(
+			facilities, orderByComparator);
+	}
+
+	/**
+	 * Returns the referrals before and after the current referral in the ordered set where facilities = &#63;.
+	 *
+	 * @param referralId the primary key of the current referral
+	 * @param facilities the facilities
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next referral
+	 * @throws NoSuchReferralException if a referral with the primary key could not be found
+	 */
+	public static Referral[] findByFacilities_PrevAndNext(
+			long referralId, String facilities,
+			OrderByComparator<Referral> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchReferralException {
+
+		return getPersistence().findByFacilities_PrevAndNext(
+			referralId, facilities, orderByComparator);
+	}
+
+	/**
+	 * Removes all the referrals where facilities = &#63; from the database.
+	 *
+	 * @param facilities the facilities
+	 */
+	public static void removeByFacilities(String facilities) {
+		getPersistence().removeByFacilities(facilities);
+	}
+
+	/**
+	 * Returns the number of referrals where facilities = &#63;.
+	 *
+	 * @param facilities the facilities
+	 * @return the number of matching referrals
+	 */
+	public static int countByFacilities(String facilities) {
+		return getPersistence().countByFacilities(facilities);
+	}
+
+	/**
 	 * Caches the referral in the entity cache if it is enabled.
 	 *
 	 * @param referral the referral

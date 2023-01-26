@@ -137,11 +137,29 @@
 	    				 <p:datePicker style="width:100%;" id="emailSentDueDate" value="#{referralBean.referral.emailSentDueDate}"  maxdate="#{referralBean.todaysDate}"/>
 	    			</div>    			
 	  			</div>
+	  			
+	  			
+	  			
+	  			<div class="row">
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<p:outputLabel value="Notes"></p:outputLabel>
+	    			</div>
+	    			<div class="col-sm-9 col-md-6 col-lg-12">  
+	    				<h:panelGroup id="notesPanel" rendered="#{referralBean.isEdit}">
+	    					<ui:repeat var="note" value="#{referralBean.notesList}">
+				  			 		<p:inputText style="display: block;" placeholder="#{referralBean.getNoteDate(note.commentDate)}: #{note.comments} " disabled="true"></p:inputText>
+								</ui:repeat>
+	    				</h:panelGroup>
+	    			</div>	
+	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+	    				<p:inputTextarea rows="6" cols="33" value="#{referralBean.notes}"/>
+	    			</div>    			
+	  			</div>
 	  		
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				 <p:commandButton style="margin-top:2%" value="Update Facility" rendered="#{referralBean.isEdit}"  action="#{referralBean.save}" update="@form"/>
-	    				 <p:commandButton style="margin-top:2%" value="Add Facility" rendered="#{!referralBean.isEdit}"  action="#{referralBean.save}" update="@form"/>
+	    				 <p:commandButton style="margin-top:2%" value="Update Referral" rendered="#{referralBean.isEdit}"  action="#{referralBean.save}" update="@form"/>
+	    				 <p:commandButton style="margin-top:2%" value="Add Referral" rendered="#{!referralBean.isEdit}"  action="#{referralBean.save}" update="@form"/>
 	    			</div>    			
 	  			</div>
 	  			

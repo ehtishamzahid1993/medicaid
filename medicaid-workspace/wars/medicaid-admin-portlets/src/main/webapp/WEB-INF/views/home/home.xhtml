@@ -25,10 +25,24 @@
       				<p:commandButton icon="pi pi-search" style="background-color:white; border:none" action="#{homeBean.search}" update="@form"/>
     			</div>
   			</div>
+  			<div class="row">
+    			<div class="col-sm-9 col-md-6 col-lg-4">
+    				<p:outputLabel value="Facility"></p:outputLabel>
+     				<p:selectManyMenu id="facilities" value="#{homeBean.selectedFacilities}" 
+                            converter="#{facilityConverter}" 
+                            var="c" showCheckbox="true" >
+                            <p:ajax listener="#{homeBean.setFacilityChange}" update="referralCards"/>
+			            <f:selectItems value="#{homeBean.facilities}" var="country" itemLabel="#{country.name}"
+			                            itemValue="#{country}" />
+			            <p:column>
+			                <h:outputText value="#{c.name}"/>
+			            </p:column>
+			        </p:selectManyMenu>
+    			</div>
+  			</div>
 		</div>
-    </h:form>
-    
-    <div class="container">
+		<h:panelGroup id="referralCards">
+    	<div class="container">
   			<div class="row">
     			<div class="col-sm-9 col-md-6 col-lg-4">
      				<p:card >
@@ -94,6 +108,10 @@
     			</div>
   			</div>
 		</div>
+	</h:panelGroup>	
+    </h:form>
+    
+    
     
     
     

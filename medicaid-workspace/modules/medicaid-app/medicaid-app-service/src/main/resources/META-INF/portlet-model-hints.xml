@@ -68,7 +68,7 @@
 		<field name="state" type="String" />
 		<field name="zipCode" type="String" />
 		<field name="documentIds" type="String" />
-		<field name="referralId" type="Long" />
+		<field name="referralId" type="String" />
 		<field name="facilityId" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="createdBy" type="String" />

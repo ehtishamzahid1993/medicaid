@@ -1,0 +1,8 @@
+<service-builder-import>
+	<entity name="CustomQuery" local-service="true"
+		remote-service="true">
+
+		<column name="sqlKey" type="String" primary="true" />
+		<column name="sqlQuery" type="String" />
+	</entity>
+</service-builder-import>

@@ -1,0 +1,10 @@
+Bundle-Name: medicaid-liferay-api
+Bundle-SymbolicName: com.medicaid.liferay.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.medicaid.liferay.exception,\
+	com.medicaid.liferay.model,\
+	com.medicaid.liferay.service,\
+	com.medicaid.liferay.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../medicaid-liferay-service/service.xml

@@ -90,5 +90,9 @@ body .ui-selectonemenu {
     position: relative;
     display: inline-block;
     width: 100%;
-}   		
+}
+body .ui-state-disabled {
+    opacity: 1.6;
+}
+   		
 		

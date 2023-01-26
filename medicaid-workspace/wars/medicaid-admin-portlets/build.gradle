@@ -50,6 +50,8 @@ dependencies {
     providedCompile project(":modules:medicaid-app:medicaid-app-api")
     providedCompile project(":modules:medicaid-app:medicaid-app-service")
     
+    providedCompile project(":modules:medicaid-liferay:medicaid-liferay-api")
+    providedCompile project(":modules:medicaid-liferay:medicaid-liferay-service")
   
 	
 }

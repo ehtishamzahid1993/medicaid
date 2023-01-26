@@ -42,6 +42,149 @@ public interface NotePersistence extends BasePersistence<Note> {
 	 */
 
 	/**
+	 * Returns all the notes where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @return the matching notes
+	 */
+	public java.util.List<Note> findByReferralId(Long referralId);
+
+	/**
+	 * Returns a range of all the notes where referralId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NoteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param referralId the referral ID
+	 * @param start the lower bound of the range of notes
+	 * @param end the upper bound of the range of notes (not inclusive)
+	 * @return the range of matching notes
+	 */
+	public java.util.List<Note> findByReferralId(
+		Long referralId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the notes where referralId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NoteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param referralId the referral ID
+	 * @param start the lower bound of the range of notes
+	 * @param end the upper bound of the range of notes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching notes
+	 */
+	public java.util.List<Note> findByReferralId(
+		Long referralId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Note>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the notes where referralId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NoteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param referralId the referral ID
+	 * @param start the lower bound of the range of notes
+	 * @param end the upper bound of the range of notes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching notes
+	 */
+	public java.util.List<Note> findByReferralId(
+		Long referralId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Note>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching note
+	 * @throws NoSuchNoteException if a matching note could not be found
+	 */
+	public Note findByReferralId_First(
+			Long referralId,
+			com.liferay.portal.kernel.util.OrderByComparator<Note>
+				orderByComparator)
+		throws NoSuchNoteException;
+
+	/**
+	 * Returns the first note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching note, or <code>null</code> if a matching note could not be found
+	 */
+	public Note fetchByReferralId_First(
+		Long referralId,
+		com.liferay.portal.kernel.util.OrderByComparator<Note>
+			orderByComparator);
+
+	/**
+	 * Returns the last note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching note
+	 * @throws NoSuchNoteException if a matching note could not be found
+	 */
+	public Note findByReferralId_Last(
+			Long referralId,
+			com.liferay.portal.kernel.util.OrderByComparator<Note>
+				orderByComparator)
+		throws NoSuchNoteException;
+
+	/**
+	 * Returns the last note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching note, or <code>null</code> if a matching note could not be found
+	 */
+	public Note fetchByReferralId_Last(
+		Long referralId,
+		com.liferay.portal.kernel.util.OrderByComparator<Note>
+			orderByComparator);
+
+	/**
+	 * Returns the notes before and after the current note in the ordered set where referralId = &#63;.
+	 *
+	 * @param noteId the primary key of the current note
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next note
+	 * @throws NoSuchNoteException if a note with the primary key could not be found
+	 */
+	public Note[] findByReferralId_PrevAndNext(
+			long noteId, Long referralId,
+			com.liferay.portal.kernel.util.OrderByComparator<Note>
+				orderByComparator)
+		throws NoSuchNoteException;
+
+	/**
+	 * Removes all the notes where referralId = &#63; from the database.
+	 *
+	 * @param referralId the referral ID
+	 */
+	public void removeByReferralId(Long referralId);
+
+	/**
+	 * Returns the number of notes where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @return the number of matching notes
+	 */
+	public int countByReferralId(Long referralId);
+
+	/**
 	 * Caches the note in the entity cache if it is enabled.
 	 *
 	 * @param note the note

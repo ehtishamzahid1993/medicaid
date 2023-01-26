@@ -23,6 +23,7 @@
      				<div class="card">
 					    <h5>All Referrals</h5>
 					    <h:form>
+					    <p:growl id="messages" keepAlive="true"/>
 					        <p:dataTable id="tbl" var="referral" value="#{referralBean.referralList}" widgetVar="referralTable"
 					            emptyMessage="No Referrals found" rowKey="#{referral.referralId}"
 					            selection="#{referralBean.referral}" selectionMode="single">
@@ -47,17 +48,17 @@
 					                <h:outputText value="#{referral.referralId}" />
 					            </p:column>
 					
-					            <p:column field="centers" headerText="Centers" >
+					            <p:column  headerText="Centers" filterBy="#{referral.facilities}" filterMatchMode="contains">
 					                
 					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityName(referral.facilities)}" />
 					            </p:column>
 					            
-					             <p:column field="facilityContant" headerText="Facility Contact" filterBy="#{referral.facilityAdmin}" filterMatchMode="contains" >
+					             <p:column  headerText="Facility Contact" filterBy="#{referral.facilityAdmin}" filterMatchMode="contains" >
 					               
 					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityAdmin(referral.facilityAdmin)}" />
 					            </p:column>
 					            
-					            <p:column field="patient" headerText="Patient" filterBy="#{referral.patientId}" filterMatchMode="contains" >
+					            <p:column headerText="Patient" filterBy="#{referral.patientId}" filterMatchMode="contains" >
 					               
 					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getPatientName(referral.patientId)}" />
 					            </p:column>

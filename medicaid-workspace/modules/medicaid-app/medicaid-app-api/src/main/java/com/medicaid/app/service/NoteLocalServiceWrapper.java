@@ -198,6 +198,13 @@ public class NoteLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.medicaid.app.model.Note> findByReferralId(
+		Long referralId) {
+
+		return _noteLocalService.findByReferralId(referralId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

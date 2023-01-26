@@ -59,11 +59,16 @@ public class FacilityBean implements Serializable {
 		try {
 			facility=(Facility) SessionUtil.getSessionAttribute("facility");
 			isEdit= (Boolean) SessionUtil.getSessionAttribute("isEdit");
+			if(isEdit==null) {
+				isEdit=false;
+			}
 			log.info("isEdit "+isEdit);
+			log.info("facility "+facility);
+			
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
-		log.info("facility "+facility);
+		
 		if(isEdit==null) {
 			facility=FacilityLocalServiceUtil.createFacility(0);
 		}else if(!isEdit ) {
@@ -83,6 +88,8 @@ public class FacilityBean implements Serializable {
 		}catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
+		
+		
 		
 	}
 	

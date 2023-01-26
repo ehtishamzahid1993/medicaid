@@ -69,7 +69,7 @@ create table Medicaid_Patient (
 	state_ VARCHAR(75) null,
 	zipCode VARCHAR(75) null,
 	documentIds VARCHAR(75) null,
-	referralId LONG,
+	referralId VARCHAR(75) null,
 	facilityId VARCHAR(75) null,
 	createDate DATE null,
 	createdBy VARCHAR(75) null,

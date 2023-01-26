@@ -308,14 +308,15 @@ public interface PatientModel extends BaseModel<Patient> {
 	 *
 	 * @return the referral ID of this patient
 	 */
-	public Long getReferralId();
+	@AutoEscape
+	public String getReferralId();
 
 	/**
 	 * Sets the referral ID of this patient.
 	 *
 	 * @param referralId the referral ID of this patient
 	 */
-	public void setReferralId(Long referralId);
+	public void setReferralId(String referralId);
 
 	/**
 	 * Returns the facility ID of this patient.

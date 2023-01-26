@@ -245,11 +245,11 @@ public class PatientSoap implements Serializable {
 		_documentIds = documentIds;
 	}
 
-	public Long getReferralId() {
+	public String getReferralId() {
 		return _referralId;
 	}
 
-	public void setReferralId(Long referralId) {
+	public void setReferralId(String referralId) {
 		_referralId = referralId;
 	}
 
@@ -309,7 +309,7 @@ public class PatientSoap implements Serializable {
 	private String _state;
 	private String _zipCode;
 	private String _documentIds;
-	private Long _referralId;
+	private String _referralId;
 	private String _facilityId;
 	private Date _createDate;
 	private String _createdBy;

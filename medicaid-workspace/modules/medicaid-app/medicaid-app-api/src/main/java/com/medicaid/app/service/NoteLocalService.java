@@ -181,6 +181,8 @@ public interface NoteLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Note fetchNote(long noteId);
 
+	public List<Note> findByReferralId(Long referralId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

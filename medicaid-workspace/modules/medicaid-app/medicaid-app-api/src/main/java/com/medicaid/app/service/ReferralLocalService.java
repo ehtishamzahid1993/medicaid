@@ -181,6 +181,8 @@ public interface ReferralLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Referral fetchReferral(long referralId);
 
+	public List<Referral> findByFacilities(String facilities);
+
 	public List<Referral> findByStatus(String status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

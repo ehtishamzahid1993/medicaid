@@ -121,6 +121,174 @@ public class NoteUtil {
 	}
 
 	/**
+	 * Returns all the notes where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @return the matching notes
+	 */
+	public static List<Note> findByReferralId(Long referralId) {
+		return getPersistence().findByReferralId(referralId);
+	}
+
+	/**
+	 * Returns a range of all the notes where referralId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NoteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param referralId the referral ID
+	 * @param start the lower bound of the range of notes
+	 * @param end the upper bound of the range of notes (not inclusive)
+	 * @return the range of matching notes
+	 */
+	public static List<Note> findByReferralId(
+		Long referralId, int start, int end) {
+
+		return getPersistence().findByReferralId(referralId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the notes where referralId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NoteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param referralId the referral ID
+	 * @param start the lower bound of the range of notes
+	 * @param end the upper bound of the range of notes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching notes
+	 */
+	public static List<Note> findByReferralId(
+		Long referralId, int start, int end,
+		OrderByComparator<Note> orderByComparator) {
+
+		return getPersistence().findByReferralId(
+			referralId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the notes where referralId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>NoteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param referralId the referral ID
+	 * @param start the lower bound of the range of notes
+	 * @param end the upper bound of the range of notes (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching notes
+	 */
+	public static List<Note> findByReferralId(
+		Long referralId, int start, int end,
+		OrderByComparator<Note> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByReferralId(
+			referralId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching note
+	 * @throws NoSuchNoteException if a matching note could not be found
+	 */
+	public static Note findByReferralId_First(
+			Long referralId, OrderByComparator<Note> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchNoteException {
+
+		return getPersistence().findByReferralId_First(
+			referralId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching note, or <code>null</code> if a matching note could not be found
+	 */
+	public static Note fetchByReferralId_First(
+		Long referralId, OrderByComparator<Note> orderByComparator) {
+
+		return getPersistence().fetchByReferralId_First(
+			referralId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching note
+	 * @throws NoSuchNoteException if a matching note could not be found
+	 */
+	public static Note findByReferralId_Last(
+			Long referralId, OrderByComparator<Note> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchNoteException {
+
+		return getPersistence().findByReferralId_Last(
+			referralId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last note in the ordered set where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching note, or <code>null</code> if a matching note could not be found
+	 */
+	public static Note fetchByReferralId_Last(
+		Long referralId, OrderByComparator<Note> orderByComparator) {
+
+		return getPersistence().fetchByReferralId_Last(
+			referralId, orderByComparator);
+	}
+
+	/**
+	 * Returns the notes before and after the current note in the ordered set where referralId = &#63;.
+	 *
+	 * @param noteId the primary key of the current note
+	 * @param referralId the referral ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next note
+	 * @throws NoSuchNoteException if a note with the primary key could not be found
+	 */
+	public static Note[] findByReferralId_PrevAndNext(
+			long noteId, Long referralId,
+			OrderByComparator<Note> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchNoteException {
+
+		return getPersistence().findByReferralId_PrevAndNext(
+			noteId, referralId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the notes where referralId = &#63; from the database.
+	 *
+	 * @param referralId the referral ID
+	 */
+	public static void removeByReferralId(Long referralId) {
+		getPersistence().removeByReferralId(referralId);
+	}
+
+	/**
+	 * Returns the number of notes where referralId = &#63;.
+	 *
+	 * @param referralId the referral ID
+	 * @return the number of matching notes
+	 */
+	public static int countByReferralId(Long referralId) {
+		return getPersistence().countByReferralId(referralId);
+	}
+
+	/**
 	 * Caches the note in the entity cache if it is enabled.
 	 *
 	 * @param note the note

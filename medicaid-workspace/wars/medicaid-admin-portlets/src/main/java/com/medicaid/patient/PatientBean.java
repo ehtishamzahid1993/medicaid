@@ -13,10 +13,12 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.medicaid.app.model.Document;
 import com.medicaid.app.model.Facility;
 import com.medicaid.app.model.Patient;
+import com.medicaid.app.model.Referral;
 import com.medicaid.app.service.DocumentLocalServiceUtil;
 import com.medicaid.app.service.FacilityLocalServiceUtil;
 import com.medicaid.app.service.FacilityServiceUtil;
 import com.medicaid.app.service.PatientLocalServiceUtil;
+import com.medicaid.app.service.ReferralLocalServiceUtil;
 import com.medicaid.common.util.FormattingUtil;
 import com.medicaid.common.util.SessionUtil;
 
@@ -66,6 +68,9 @@ public class PatientBean implements Serializable {
 	 List<UploadedFile> uploadedFiles=new ArrayList<UploadedFile>();
 	 
 	 private List<Document> documentsList;
+	 
+	 private List<Referral> referrals;
+	private List<String> selectedReferrals=new ArrayList<String>();
 	
 	@PostConstruct
 	public void init() {
@@ -73,10 +78,23 @@ public class PatientBean implements Serializable {
 		
 		themeDisplay = LiferayPortletHelperUtil.getThemeDisplay();
 		user=themeDisplay.getUser();
-		patientsList=PatientLocalServiceUtil.getPatients(-1, -1);
+		if(SessionUtil.getSessionAttribute("patientList")!=null) {
+			patientsList=(List<Patient>) SessionUtil.getSessionAttribute("patientList");
+			SessionUtil.setSessionAttribute("patientList", null);
+		}else
+		{
+			patientsList=PatientLocalServiceUtil.getPatients(-1, -1);
+		}
+		
 		try {
 			patient=(Patient) SessionUtil.getSessionAttribute("patient");
 			isEdit= (Boolean) SessionUtil.getSessionAttribute("isEdit");
+			if(isEdit==null) {
+				isEdit=false;
+			}
+			log.info("isEdit "+isEdit);
+			log.info("patient "+patient);
+			
 			
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
@@ -101,6 +119,7 @@ public class PatientBean implements Serializable {
 			log.error(FormattingUtil.getMessage(e));
 		}
 		facilities=FacilityLocalServiceUtil.getFacilities(-1, -1);
+		referrals=ReferralLocalServiceUtil.getReferrals(-1, -1);
 		try {
 			setFacilities();
 		}catch (Exception e) {
@@ -108,6 +127,11 @@ public class PatientBean implements Serializable {
 		}
 		try {
 			getDocuments(patient);
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		try {
+			setReferrals();
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
@@ -174,6 +198,24 @@ public class PatientBean implements Serializable {
 		}
 	}
 	
+	private void setReferrals() {
+		if(isEdit && patient!=null) {
+		String referralIds=patient.getReferralId();
+		if(referralIds!=null && !referralIds.trim().equals("")) {
+			String[] array=referralIds.split(",");
+			for (int i = 0; i < array.length; i++) {
+				try {
+					Referral referral=ReferralLocalServiceUtil.getReferral(Long.valueOf(array[i]));
+					String value=""+ referral;
+					selectedReferrals.add(value);
+				} catch (Exception e) {
+					log.error(FormattingUtil.getMessage(e));
+				}
+			}
+		}
+		}
+	}
+	
 	public void handleFileUpload(FileUploadEvent event) {
 		uploadedFiles.add(event.getFile());
         FacesMessage message = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
@@ -232,7 +274,25 @@ public class PatientBean implements Serializable {
 			
 			patient.setFacilityId(selectedFacility);
 		}
-		patient.setReferralId(0L); // need to remove
+		
+		log.info("selectedReferrals "+selectedReferrals);
+		if(selectedReferrals!=null) {
+			String selectedReferral="";
+			for (int i = 0; i < selectedReferrals.size(); i++) {
+				try {
+					String referral=selectedReferrals.get(i);
+					String[] array=referral.split(",");
+					String[] childArray=array[0].split("=");
+					log.info("childArray "+childArray[1]);
+
+					selectedReferral+=childArray[1]+",";
+				} catch (Exception e) {
+					log.error(FormattingUtil.getMessage(e));
+				}
+			}
+			
+			patient.setReferralId(selectedReferral);
+		}
 		try {
 			PatientLocalServiceUtil.updatePatient(patient);
 			log.info("patient saved");
@@ -396,6 +456,22 @@ public class PatientBean implements Serializable {
 
 	public void setDocumentsList(List<Document> documentsList) {
 		this.documentsList = documentsList;
+	}
+
+	public List<Referral> getReferrals() {
+		return referrals;
+	}
+
+	public void setReferrals(List<Referral> referrals) {
+		this.referrals = referrals;
+	}
+
+	public List<String> getSelectedReferrals() {
+		return selectedReferrals;
+	}
+
+	public void setSelectedReferrals(List<String> selectedReferrals) {
+		this.selectedReferrals = selectedReferrals;
 	}
 
 

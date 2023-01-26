@@ -195,6 +195,12 @@ public class NoteLocalServiceUtil {
 		return getService().fetchNote(noteId);
 	}
 
+	public static java.util.List<com.medicaid.app.model.Note> findByReferralId(
+		Long referralId) {
+
+		return getService().findByReferralId(referralId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

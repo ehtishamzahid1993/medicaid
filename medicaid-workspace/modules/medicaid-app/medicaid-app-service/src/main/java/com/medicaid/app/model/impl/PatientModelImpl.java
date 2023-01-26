@@ -78,7 +78,7 @@ public class PatientModelImpl
 		{"residentLiabilityEmailSent", Types.BOOLEAN},
 		{"address", Types.VARCHAR}, {"city", Types.VARCHAR},
 		{"state_", Types.VARCHAR}, {"zipCode", Types.VARCHAR},
-		{"documentIds", Types.VARCHAR}, {"referralId", Types.BIGINT},
+		{"documentIds", Types.VARCHAR}, {"referralId", Types.VARCHAR},
 		{"facilityId", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"createdBy", Types.VARCHAR}, {"modifiedDate", Types.TIMESTAMP},
 		{"modifiedBy", Types.VARCHAR}
@@ -104,7 +104,7 @@ public class PatientModelImpl
 		TABLE_COLUMNS_MAP.put("state_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("zipCode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("documentIds", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("referralId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("referralId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facilityId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("createdBy", Types.VARCHAR);
@@ -113,7 +113,7 @@ public class PatientModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table Medicaid_Patient (patientId LONG not null primary key,firstName VARCHAR(75) null,lastName VARCHAR(75) null,emailAddress VARCHAR(75) null,phoneNo LONG,dateOfBirth DATE null,admitDate DATE null,admitPayer VARCHAR(75) null,medicaidNeedDate DATE null,haveMedicaid BOOLEAN,residentLiabilityEmailSent BOOLEAN,address VARCHAR(75) null,city VARCHAR(75) null,state_ VARCHAR(75) null,zipCode VARCHAR(75) null,documentIds VARCHAR(75) null,referralId LONG,facilityId VARCHAR(75) null,createDate DATE null,createdBy VARCHAR(75) null,modifiedDate DATE null,modifiedBy VARCHAR(75) null)";
+		"create table Medicaid_Patient (patientId LONG not null primary key,firstName VARCHAR(75) null,lastName VARCHAR(75) null,emailAddress VARCHAR(75) null,phoneNo LONG,dateOfBirth DATE null,admitDate DATE null,admitPayer VARCHAR(75) null,medicaidNeedDate DATE null,haveMedicaid BOOLEAN,residentLiabilityEmailSent BOOLEAN,address VARCHAR(75) null,city VARCHAR(75) null,state_ VARCHAR(75) null,zipCode VARCHAR(75) null,documentIds VARCHAR(75) null,referralId VARCHAR(75) null,facilityId VARCHAR(75) null,createDate DATE null,createdBy VARCHAR(75) null,modifiedDate DATE null,modifiedBy VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table Medicaid_Patient";
 
@@ -387,7 +387,7 @@ public class PatientModelImpl
 			(BiConsumer<Patient, String>)Patient::setDocumentIds);
 		attributeGetterFunctions.put("referralId", Patient::getReferralId);
 		attributeSetterBiConsumers.put(
-			"referralId", (BiConsumer<Patient, Long>)Patient::setReferralId);
+			"referralId", (BiConsumer<Patient, String>)Patient::setReferralId);
 		attributeGetterFunctions.put("facilityId", Patient::getFacilityId);
 		attributeSetterBiConsumers.put(
 			"facilityId", (BiConsumer<Patient, String>)Patient::setFacilityId);
@@ -668,12 +668,17 @@ public class PatientModelImpl
 
 	@JSON
 	@Override
-	public Long getReferralId() {
-		return _referralId;
+	public String getReferralId() {
+		if (_referralId == null) {
+			return "";
+		}
+		else {
+			return _referralId;
+		}
 	}
 
 	@Override
-	public void setReferralId(Long referralId) {
+	public void setReferralId(String referralId) {
 		_referralId = referralId;
 	}
 
@@ -997,6 +1002,12 @@ public class PatientModelImpl
 
 		patientCacheModel.referralId = getReferralId();
 
+		String referralId = patientCacheModel.referralId;
+
+		if ((referralId != null) && (referralId.length() == 0)) {
+			patientCacheModel.referralId = null;
+		}
+
 		patientCacheModel.facilityId = getFacilityId();
 
 		String facilityId = patientCacheModel.facilityId;
@@ -1133,7 +1144,7 @@ public class PatientModelImpl
 	private String _state;
 	private String _zipCode;
 	private String _documentIds;
-	private Long _referralId;
+	private String _referralId;
 	private String _facilityId;
 	private Date _createDate;
 	private String _createdBy;

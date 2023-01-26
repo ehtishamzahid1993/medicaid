@@ -200,6 +200,12 @@ public class ReferralLocalServiceUtil {
 		return getService().fetchReferral(referralId);
 	}
 
+	public static java.util.List<com.medicaid.app.model.Referral>
+		findByFacilities(String facilities) {
+
+		return getService().findByFacilities(facilities);
+	}
+
 	public static java.util.List<com.medicaid.app.model.Referral> findByStatus(
 		String status) {
 

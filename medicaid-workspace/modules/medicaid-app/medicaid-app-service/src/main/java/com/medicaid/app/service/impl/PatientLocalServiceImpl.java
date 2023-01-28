@@ -22,6 +22,7 @@ import com.medicaid.app.model.Patient;
 import com.medicaid.app.service.base.PatientLocalServiceBaseImpl;
 import com.medicaid.app.util.FormattingUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,6 +72,18 @@ static Log log = LogFactoryUtil.getLog(Patient.class);
 		}
 		return null;
 	}
+	
+	public List<Patient> findByLastName(String lastName){
+		try {
+			return patientPersistence.findByLastName(lastName);
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		return null;
+	}
+	
+	
+	
 	
 	
 	public HashMap<Long, Patient> getPatientMap(){

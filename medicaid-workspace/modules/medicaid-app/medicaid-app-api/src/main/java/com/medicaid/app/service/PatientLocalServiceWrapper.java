@@ -212,6 +212,13 @@ public class PatientLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.medicaid.app.model.Patient> findByLastName(
+		String lastName) {
+
+		return _patientLocalService.findByLastName(lastName);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

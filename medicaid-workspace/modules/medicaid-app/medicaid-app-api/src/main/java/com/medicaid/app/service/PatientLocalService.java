@@ -186,6 +186,8 @@ public interface PatientLocalService
 
 	public List<Patient> findByFirstName(String firstName);
 
+	public List<Patient> findByLastName(String lastName);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

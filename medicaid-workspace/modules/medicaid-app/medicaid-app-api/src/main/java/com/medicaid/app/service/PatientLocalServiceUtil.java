@@ -207,6 +207,12 @@ public class PatientLocalServiceUtil {
 		return getService().findByFirstName(firstName);
 	}
 
+	public static java.util.List<com.medicaid.app.model.Patient> findByLastName(
+		String lastName) {
+
+		return getService().findByLastName(lastName);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

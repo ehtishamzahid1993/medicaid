@@ -4,12 +4,16 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.faces.portal.context.LiferayPortletHelperUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.medicaid.app.model.Document;
 import com.medicaid.app.model.Facility;
 import com.medicaid.app.model.Patient;
@@ -75,7 +79,8 @@ public class PatientBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		log.info("inside patient init");
-		
+		facilities=new ArrayList<Facility>();
+		patientsList=new ArrayList<Patient>();
 		themeDisplay = LiferayPortletHelperUtil.getThemeDisplay();
 		user=themeDisplay.getUser();
 		if(SessionUtil.getSessionAttribute("patientList")!=null) {
@@ -83,7 +88,43 @@ public class PatientBean implements Serializable {
 			SessionUtil.setSessionAttribute("patientList", null);
 		}else
 		{
-			patientsList=PatientLocalServiceUtil.getPatients(-1, -1);
+			try {
+				String facilityIds="";
+				try {
+					facilityIds=(String) user.getExpandoBridge().getAttribute("Facilities");
+					log.info("facilityIds "+facilityIds);
+				} catch (Exception e) {
+					log.error(FormattingUtil.getMessage(e));
+				}
+				if(facilityIds!=null && !facilityIds.trim().equals(""))
+				{
+					String[] array=facilityIds.split(",");
+					try {
+						DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Patient.class, PortalClassLoaderUtil.getClassLoader());
+						for (int i = 0; i < array.length; i++) {
+							dynamicQuery.add(PropertyFactoryUtil.forName("facilityId").like("%"+array[i]+",%"));
+						}					
+						 patientsList = PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+					} catch (Exception e) {
+						log.error(FormattingUtil.getMessage(e));
+					}
+					try {
+						for (int i = 0; i < array.length; i++) {
+							facilities.add(FacilityLocalServiceUtil.getFacility(Long.valueOf(array[i])));
+						}
+					} catch (Exception e) {
+						log.error(FormattingUtil.getMessage(e));
+					}
+					log.info("facilities "+facilities.size());
+					
+				}else
+				{
+					patientsList=new ArrayList<Patient>();
+					facilities=new ArrayList<Facility>();
+				}
+			} catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
 		}
 		
 		try {
@@ -118,7 +159,6 @@ public class PatientBean implements Serializable {
 		}catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
-		facilities=FacilityLocalServiceUtil.getFacilities(-1, -1);
 		referrals=ReferralLocalServiceUtil.getReferrals(-1, -1);
 		try {
 			setFacilities();

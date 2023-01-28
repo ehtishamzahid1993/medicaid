@@ -2,6 +2,9 @@ package com.medicaid.referrals;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.faces.portal.context.LiferayPortletHelperUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -10,6 +13,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.medicaid.app.model.Facility;
 import com.medicaid.app.model.Note;
@@ -70,8 +74,49 @@ public class ReferralBean implements Serializable {
 		
 		themeDisplay = LiferayPortletHelperUtil.getThemeDisplay();
 		user=themeDisplay.getUser();
-		referralList=ReferralLocalServiceUtil.getReferrals(-1, -1);
-		facilities=FacilityLocalServiceUtil.getFacilities(-1,-1);
+		
+		
+
+		try {
+			String facilityIds="";
+			try {
+				facilityIds=(String) user.getExpandoBridge().getAttribute("Facilities");
+				log.info("facilityIds "+facilityIds);
+			} catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+			if(facilityIds!=null && !facilityIds.trim().equals(""))
+			{
+				String[] array=facilityIds.split(",");
+				try {
+					DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Referral.class, PortalClassLoaderUtil.getClassLoader());
+					for (int i = 0; i < array.length; i++) {
+						dynamicQuery.add(PropertyFactoryUtil.forName("facilities").like("%"+array[i]+",%"));
+					}					
+					referralList = ReferralLocalServiceUtil.dynamicQuery(dynamicQuery);
+				} catch (Exception e) {
+					log.error(FormattingUtil.getMessage(e));
+				}
+				try {
+					for (int i = 0; i < array.length; i++) {
+						facilities.add(FacilityLocalServiceUtil.getFacility(Long.valueOf(array[i])));
+					}
+				} catch (Exception e) {
+					log.error(FormattingUtil.getMessage(e));
+				}
+				log.info("facilities "+facilities.size());
+				
+			}else
+			{
+				referralList=new ArrayList<Referral>();
+				facilities=new ArrayList<Facility>();
+			}
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+	
+		
+		
 		facilitiesMap=FacilityLocalServiceUtil.getFacilityMap();
 		pateientsMap=PatientLocalServiceUtil.getPatientMap();
 		try {

@@ -293,6 +293,174 @@ public class PatientUtil {
 	}
 
 	/**
+	 * Returns all the patients where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @return the matching patients
+	 */
+	public static List<Patient> findByLastName(String lastName) {
+		return getPersistence().findByLastName(lastName);
+	}
+
+	/**
+	 * Returns a range of all the patients where lastName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param lastName the last name
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @return the range of matching patients
+	 */
+	public static List<Patient> findByLastName(
+		String lastName, int start, int end) {
+
+		return getPersistence().findByLastName(lastName, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where lastName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param lastName the last name
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching patients
+	 */
+	public static List<Patient> findByLastName(
+		String lastName, int start, int end,
+		OrderByComparator<Patient> orderByComparator) {
+
+		return getPersistence().findByLastName(
+			lastName, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where lastName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param lastName the last name
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching patients
+	 */
+	public static List<Patient> findByLastName(
+		String lastName, int start, int end,
+		OrderByComparator<Patient> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByLastName(
+			lastName, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	public static Patient findByLastName_First(
+			String lastName, OrderByComparator<Patient> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchPatientException {
+
+		return getPersistence().findByLastName_First(
+			lastName, orderByComparator);
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	public static Patient fetchByLastName_First(
+		String lastName, OrderByComparator<Patient> orderByComparator) {
+
+		return getPersistence().fetchByLastName_First(
+			lastName, orderByComparator);
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	public static Patient findByLastName_Last(
+			String lastName, OrderByComparator<Patient> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchPatientException {
+
+		return getPersistence().findByLastName_Last(
+			lastName, orderByComparator);
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	public static Patient fetchByLastName_Last(
+		String lastName, OrderByComparator<Patient> orderByComparator) {
+
+		return getPersistence().fetchByLastName_Last(
+			lastName, orderByComparator);
+	}
+
+	/**
+	 * Returns the patients before and after the current patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param patientId the primary key of the current patient
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next patient
+	 * @throws NoSuchPatientException if a patient with the primary key could not be found
+	 */
+	public static Patient[] findByLastName_PrevAndNext(
+			long patientId, String lastName,
+			OrderByComparator<Patient> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchPatientException {
+
+		return getPersistence().findByLastName_PrevAndNext(
+			patientId, lastName, orderByComparator);
+	}
+
+	/**
+	 * Removes all the patients where lastName = &#63; from the database.
+	 *
+	 * @param lastName the last name
+	 */
+	public static void removeByLastName(String lastName) {
+		getPersistence().removeByLastName(lastName);
+	}
+
+	/**
+	 * Returns the number of patients where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @return the number of matching patients
+	 */
+	public static int countByLastName(String lastName) {
+		return getPersistence().countByLastName(lastName);
+	}
+
+	/**
 	 * Returns all the patients where emailAddress = &#63;.
 	 *
 	 * @param emailAddress the email address
@@ -458,6 +626,174 @@ public class PatientUtil {
 	 */
 	public static int countByEmailAddress(String emailAddress) {
 		return getPersistence().countByEmailAddress(emailAddress);
+	}
+
+	/**
+	 * Returns all the patients where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @return the matching patients
+	 */
+	public static List<Patient> findByFacilityId(String facilityId) {
+		return getPersistence().findByFacilityId(facilityId);
+	}
+
+	/**
+	 * Returns a range of all the patients where facilityId LIKE &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilityId the facility ID
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @return the range of matching patients
+	 */
+	public static List<Patient> findByFacilityId(
+		String facilityId, int start, int end) {
+
+		return getPersistence().findByFacilityId(facilityId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where facilityId LIKE &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilityId the facility ID
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching patients
+	 */
+	public static List<Patient> findByFacilityId(
+		String facilityId, int start, int end,
+		OrderByComparator<Patient> orderByComparator) {
+
+		return getPersistence().findByFacilityId(
+			facilityId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where facilityId LIKE &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilityId the facility ID
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching patients
+	 */
+	public static List<Patient> findByFacilityId(
+		String facilityId, int start, int end,
+		OrderByComparator<Patient> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByFacilityId(
+			facilityId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	public static Patient findByFacilityId_First(
+			String facilityId, OrderByComparator<Patient> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchPatientException {
+
+		return getPersistence().findByFacilityId_First(
+			facilityId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	public static Patient fetchByFacilityId_First(
+		String facilityId, OrderByComparator<Patient> orderByComparator) {
+
+		return getPersistence().fetchByFacilityId_First(
+			facilityId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	public static Patient findByFacilityId_Last(
+			String facilityId, OrderByComparator<Patient> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchPatientException {
+
+		return getPersistence().findByFacilityId_Last(
+			facilityId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	public static Patient fetchByFacilityId_Last(
+		String facilityId, OrderByComparator<Patient> orderByComparator) {
+
+		return getPersistence().fetchByFacilityId_Last(
+			facilityId, orderByComparator);
+	}
+
+	/**
+	 * Returns the patients before and after the current patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param patientId the primary key of the current patient
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next patient
+	 * @throws NoSuchPatientException if a patient with the primary key could not be found
+	 */
+	public static Patient[] findByFacilityId_PrevAndNext(
+			long patientId, String facilityId,
+			OrderByComparator<Patient> orderByComparator)
+		throws com.medicaid.app.exception.NoSuchPatientException {
+
+		return getPersistence().findByFacilityId_PrevAndNext(
+			patientId, facilityId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the patients where facilityId LIKE &#63; from the database.
+	 *
+	 * @param facilityId the facility ID
+	 */
+	public static void removeByFacilityId(String facilityId) {
+		getPersistence().removeByFacilityId(facilityId);
+	}
+
+	/**
+	 * Returns the number of patients where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @return the number of matching patients
+	 */
+	public static int countByFacilityId(String facilityId) {
+		return getPersistence().countByFacilityId(facilityId);
 	}
 
 	/**

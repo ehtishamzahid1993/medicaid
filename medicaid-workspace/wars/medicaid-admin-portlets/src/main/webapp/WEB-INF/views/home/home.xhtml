@@ -39,6 +39,26 @@
 			            </p:column>
 			        </p:selectManyMenu>
     			</div>
+    			<div class="col-sm-9 col-md-6 col-lg-4">
+    				<p:outputLabel value="State"></p:outputLabel>
+     				<p:selectManyMenu id="states" value="#{homeBean.selectedStates}" 
+                            converter="#{facilityConverter}" 
+                            var="c" showCheckbox="true" >
+                            <p:ajax listener="#{homeBean.setFacilityStateChange}" update="referralCards"/>
+			            <f:selectItems value="#{homeBean.facilities}" var="country" itemLabel="#{country.state}"
+			                            itemValue="#{country}" />
+			            <p:column>
+			                <h:outputText value="#{c.state}"/>
+			            </p:column>
+			        </p:selectManyMenu>
+    			</div>
+    			<div class="col-sm-9 col-md-6 col-lg-4">
+    				<p:outputLabel value="Date"></p:outputLabel>
+     				<p:datePicker id="range" selectionMode="range" value="#{homeBean.range}"
+                                readonlyInput="true">
+                                <p:ajax listener="#{homeBean.dateRange}" update="referralCards"/>
+                    </p:datePicker>
+    			</div>
   			</div>
 		</div>
 		<h:panelGroup id="referralCards">

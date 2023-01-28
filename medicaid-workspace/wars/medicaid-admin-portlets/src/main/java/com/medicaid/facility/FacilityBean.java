@@ -55,7 +55,28 @@ public class FacilityBean implements Serializable {
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
-		facilitiesList=FacilityLocalServiceUtil.getFacilities(-1, -1);
+		try {
+			String facilities="";
+			try {
+				facilities=(String) user.getExpandoBridge().getAttribute("Facilities");
+			} catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+			if(facilities!=null && !facilities.trim().equals(""))
+			{
+				String[] array=facilities.split(",");
+				for (int i = 0; i < array.length; i++) {
+					facilitiesList.add(FacilityLocalServiceUtil.getFacility(Long.valueOf(array[i])));
+				}
+			}else
+			{
+				facilitiesList=new ArrayList<Facility>();
+			}
+		} catch (Exception e) {
+			log.error(FormattingUtil.getMessage(e));
+		}
+		
+		
 		try {
 			facility=(Facility) SessionUtil.getSessionAttribute("facility");
 			isEdit= (Boolean) SessionUtil.getSessionAttribute("isEdit");
@@ -84,7 +105,6 @@ public class FacilityBean implements Serializable {
 					states.add(jsonObject.getString("name"));
 				}
 			}
-			log.info("states "+states);
 		}catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}

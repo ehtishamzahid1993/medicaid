@@ -36,8 +36,14 @@
 		<finder name="FirstName" return-type="Collection">
 			<finder-column name="firstName" />
 		</finder>
+		<finder name="LastName" return-type="Collection">
+			<finder-column name="lastName" />
+		</finder>
 		<finder name="EmailAddress" return-type="Collection">
 			<finder-column name="emailAddress" />
+		</finder>
+		<finder name="FacilityId" return-type="Collection">
+			<finder-column name="facilityId" comparator="LIKE"/>
 		</finder>
 	</entity>
 </service-builder-import>

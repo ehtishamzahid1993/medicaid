@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import com.medicaid.app.exception.NoSuchPatientException;
 import com.medicaid.app.model.Patient;
@@ -629,6 +630,542 @@ public class PatientPersistenceImpl
 	private static final String _FINDER_COLUMN_FIRSTNAME_FIRSTNAME_3 =
 		"(patient.firstName IS NULL OR patient.firstName = '')";
 
+	private FinderPath _finderPathWithPaginationFindByLastName;
+	private FinderPath _finderPathWithoutPaginationFindByLastName;
+	private FinderPath _finderPathCountByLastName;
+
+	/**
+	 * Returns all the patients where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @return the matching patients
+	 */
+	@Override
+	public List<Patient> findByLastName(String lastName) {
+		return findByLastName(
+			lastName, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the patients where lastName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param lastName the last name
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @return the range of matching patients
+	 */
+	@Override
+	public List<Patient> findByLastName(String lastName, int start, int end) {
+		return findByLastName(lastName, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where lastName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param lastName the last name
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching patients
+	 */
+	@Override
+	public List<Patient> findByLastName(
+		String lastName, int start, int end,
+		OrderByComparator<Patient> orderByComparator) {
+
+		return findByLastName(lastName, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where lastName = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param lastName the last name
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching patients
+	 */
+	@Override
+	public List<Patient> findByLastName(
+		String lastName, int start, int end,
+		OrderByComparator<Patient> orderByComparator, boolean useFinderCache) {
+
+		lastName = Objects.toString(lastName, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByLastName;
+				finderArgs = new Object[] {lastName};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByLastName;
+			finderArgs = new Object[] {lastName, start, end, orderByComparator};
+		}
+
+		List<Patient> list = null;
+
+		if (useFinderCache) {
+			list = (List<Patient>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Patient patient : list) {
+					if (!lastName.equals(patient.getLastName())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_PATIENT_WHERE);
+
+			boolean bindLastName = false;
+
+			if (lastName.isEmpty()) {
+				query.append(_FINDER_COLUMN_LASTNAME_LASTNAME_3);
+			}
+			else {
+				bindLastName = true;
+
+				query.append(_FINDER_COLUMN_LASTNAME_LASTNAME_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				query.append(PatientModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindLastName) {
+					qPos.add(lastName);
+				}
+
+				list = (List<Patient>)QueryUtil.list(
+					q, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	@Override
+	public Patient findByLastName_First(
+			String lastName, OrderByComparator<Patient> orderByComparator)
+		throws NoSuchPatientException {
+
+		Patient patient = fetchByLastName_First(lastName, orderByComparator);
+
+		if (patient != null) {
+			return patient;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("lastName=");
+		msg.append(lastName);
+
+		msg.append("}");
+
+		throw new NoSuchPatientException(msg.toString());
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	@Override
+	public Patient fetchByLastName_First(
+		String lastName, OrderByComparator<Patient> orderByComparator) {
+
+		List<Patient> list = findByLastName(lastName, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	@Override
+	public Patient findByLastName_Last(
+			String lastName, OrderByComparator<Patient> orderByComparator)
+		throws NoSuchPatientException {
+
+		Patient patient = fetchByLastName_Last(lastName, orderByComparator);
+
+		if (patient != null) {
+			return patient;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("lastName=");
+		msg.append(lastName);
+
+		msg.append("}");
+
+		throw new NoSuchPatientException(msg.toString());
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	@Override
+	public Patient fetchByLastName_Last(
+		String lastName, OrderByComparator<Patient> orderByComparator) {
+
+		int count = countByLastName(lastName);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Patient> list = findByLastName(
+			lastName, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the patients before and after the current patient in the ordered set where lastName = &#63;.
+	 *
+	 * @param patientId the primary key of the current patient
+	 * @param lastName the last name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next patient
+	 * @throws NoSuchPatientException if a patient with the primary key could not be found
+	 */
+	@Override
+	public Patient[] findByLastName_PrevAndNext(
+			long patientId, String lastName,
+			OrderByComparator<Patient> orderByComparator)
+		throws NoSuchPatientException {
+
+		lastName = Objects.toString(lastName, "");
+
+		Patient patient = findByPrimaryKey(patientId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Patient[] array = new PatientImpl[3];
+
+			array[0] = getByLastName_PrevAndNext(
+				session, patient, lastName, orderByComparator, true);
+
+			array[1] = patient;
+
+			array[2] = getByLastName_PrevAndNext(
+				session, patient, lastName, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Patient getByLastName_PrevAndNext(
+		Session session, Patient patient, String lastName,
+		OrderByComparator<Patient> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_PATIENT_WHERE);
+
+		boolean bindLastName = false;
+
+		if (lastName.isEmpty()) {
+			query.append(_FINDER_COLUMN_LASTNAME_LASTNAME_3);
+		}
+		else {
+			bindLastName = true;
+
+			query.append(_FINDER_COLUMN_LASTNAME_LASTNAME_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(PatientModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindLastName) {
+			qPos.add(lastName);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(patient)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Patient> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the patients where lastName = &#63; from the database.
+	 *
+	 * @param lastName the last name
+	 */
+	@Override
+	public void removeByLastName(String lastName) {
+		for (Patient patient :
+				findByLastName(
+					lastName, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(patient);
+		}
+	}
+
+	/**
+	 * Returns the number of patients where lastName = &#63;.
+	 *
+	 * @param lastName the last name
+	 * @return the number of matching patients
+	 */
+	@Override
+	public int countByLastName(String lastName) {
+		lastName = Objects.toString(lastName, "");
+
+		FinderPath finderPath = _finderPathCountByLastName;
+
+		Object[] finderArgs = new Object[] {lastName};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PATIENT_WHERE);
+
+			boolean bindLastName = false;
+
+			if (lastName.isEmpty()) {
+				query.append(_FINDER_COLUMN_LASTNAME_LASTNAME_3);
+			}
+			else {
+				bindLastName = true;
+
+				query.append(_FINDER_COLUMN_LASTNAME_LASTNAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindLastName) {
+					qPos.add(lastName);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_LASTNAME_LASTNAME_2 =
+		"patient.lastName = ?";
+
+	private static final String _FINDER_COLUMN_LASTNAME_LASTNAME_3 =
+		"(patient.lastName IS NULL OR patient.lastName = '')";
+
 	private FinderPath _finderPathWithPaginationFindByEmailAddress;
 	private FinderPath _finderPathWithoutPaginationFindByEmailAddress;
 	private FinderPath _finderPathCountByEmailAddress;
@@ -1173,6 +1710,539 @@ public class PatientPersistenceImpl
 	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3 =
 		"(patient.emailAddress IS NULL OR patient.emailAddress = '')";
 
+	private FinderPath _finderPathWithPaginationFindByFacilityId;
+	private FinderPath _finderPathWithPaginationCountByFacilityId;
+
+	/**
+	 * Returns all the patients where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @return the matching patients
+	 */
+	@Override
+	public List<Patient> findByFacilityId(String facilityId) {
+		return findByFacilityId(
+			facilityId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the patients where facilityId LIKE &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilityId the facility ID
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @return the range of matching patients
+	 */
+	@Override
+	public List<Patient> findByFacilityId(
+		String facilityId, int start, int end) {
+
+		return findByFacilityId(facilityId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where facilityId LIKE &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilityId the facility ID
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching patients
+	 */
+	@Override
+	public List<Patient> findByFacilityId(
+		String facilityId, int start, int end,
+		OrderByComparator<Patient> orderByComparator) {
+
+		return findByFacilityId(
+			facilityId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the patients where facilityId LIKE &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PatientModelImpl</code>.
+	 * </p>
+	 *
+	 * @param facilityId the facility ID
+	 * @param start the lower bound of the range of patients
+	 * @param end the upper bound of the range of patients (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching patients
+	 */
+	@Override
+	public List<Patient> findByFacilityId(
+		String facilityId, int start, int end,
+		OrderByComparator<Patient> orderByComparator, boolean useFinderCache) {
+
+		facilityId = Objects.toString(facilityId, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = _finderPathWithPaginationFindByFacilityId;
+		finderArgs = new Object[] {facilityId, start, end, orderByComparator};
+
+		List<Patient> list = null;
+
+		if (useFinderCache) {
+			list = (List<Patient>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Patient patient : list) {
+					if (!StringUtil.wildcardMatches(
+							patient.getFacilityId(), facilityId, '_', '%', '\\',
+							true)) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_PATIENT_WHERE);
+
+			boolean bindFacilityId = false;
+
+			if (facilityId.isEmpty()) {
+				query.append(_FINDER_COLUMN_FACILITYID_FACILITYID_3);
+			}
+			else {
+				bindFacilityId = true;
+
+				query.append(_FINDER_COLUMN_FACILITYID_FACILITYID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				query.append(PatientModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindFacilityId) {
+					qPos.add(facilityId);
+				}
+
+				list = (List<Patient>)QueryUtil.list(
+					q, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	@Override
+	public Patient findByFacilityId_First(
+			String facilityId, OrderByComparator<Patient> orderByComparator)
+		throws NoSuchPatientException {
+
+		Patient patient = fetchByFacilityId_First(
+			facilityId, orderByComparator);
+
+		if (patient != null) {
+			return patient;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("facilityIdLIKE");
+		msg.append(facilityId);
+
+		msg.append("}");
+
+		throw new NoSuchPatientException(msg.toString());
+	}
+
+	/**
+	 * Returns the first patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	@Override
+	public Patient fetchByFacilityId_First(
+		String facilityId, OrderByComparator<Patient> orderByComparator) {
+
+		List<Patient> list = findByFacilityId(
+			facilityId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient
+	 * @throws NoSuchPatientException if a matching patient could not be found
+	 */
+	@Override
+	public Patient findByFacilityId_Last(
+			String facilityId, OrderByComparator<Patient> orderByComparator)
+		throws NoSuchPatientException {
+
+		Patient patient = fetchByFacilityId_Last(facilityId, orderByComparator);
+
+		if (patient != null) {
+			return patient;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("facilityIdLIKE");
+		msg.append(facilityId);
+
+		msg.append("}");
+
+		throw new NoSuchPatientException(msg.toString());
+	}
+
+	/**
+	 * Returns the last patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching patient, or <code>null</code> if a matching patient could not be found
+	 */
+	@Override
+	public Patient fetchByFacilityId_Last(
+		String facilityId, OrderByComparator<Patient> orderByComparator) {
+
+		int count = countByFacilityId(facilityId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Patient> list = findByFacilityId(
+			facilityId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the patients before and after the current patient in the ordered set where facilityId LIKE &#63;.
+	 *
+	 * @param patientId the primary key of the current patient
+	 * @param facilityId the facility ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next patient
+	 * @throws NoSuchPatientException if a patient with the primary key could not be found
+	 */
+	@Override
+	public Patient[] findByFacilityId_PrevAndNext(
+			long patientId, String facilityId,
+			OrderByComparator<Patient> orderByComparator)
+		throws NoSuchPatientException {
+
+		facilityId = Objects.toString(facilityId, "");
+
+		Patient patient = findByPrimaryKey(patientId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Patient[] array = new PatientImpl[3];
+
+			array[0] = getByFacilityId_PrevAndNext(
+				session, patient, facilityId, orderByComparator, true);
+
+			array[1] = patient;
+
+			array[2] = getByFacilityId_PrevAndNext(
+				session, patient, facilityId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Patient getByFacilityId_PrevAndNext(
+		Session session, Patient patient, String facilityId,
+		OrderByComparator<Patient> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_PATIENT_WHERE);
+
+		boolean bindFacilityId = false;
+
+		if (facilityId.isEmpty()) {
+			query.append(_FINDER_COLUMN_FACILITYID_FACILITYID_3);
+		}
+		else {
+			bindFacilityId = true;
+
+			query.append(_FINDER_COLUMN_FACILITYID_FACILITYID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(PatientModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindFacilityId) {
+			qPos.add(facilityId);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(patient)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Patient> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the patients where facilityId LIKE &#63; from the database.
+	 *
+	 * @param facilityId the facility ID
+	 */
+	@Override
+	public void removeByFacilityId(String facilityId) {
+		for (Patient patient :
+				findByFacilityId(
+					facilityId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(patient);
+		}
+	}
+
+	/**
+	 * Returns the number of patients where facilityId LIKE &#63;.
+	 *
+	 * @param facilityId the facility ID
+	 * @return the number of matching patients
+	 */
+	@Override
+	public int countByFacilityId(String facilityId) {
+		facilityId = Objects.toString(facilityId, "");
+
+		FinderPath finderPath = _finderPathWithPaginationCountByFacilityId;
+
+		Object[] finderArgs = new Object[] {facilityId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PATIENT_WHERE);
+
+			boolean bindFacilityId = false;
+
+			if (facilityId.isEmpty()) {
+				query.append(_FINDER_COLUMN_FACILITYID_FACILITYID_3);
+			}
+			else {
+				bindFacilityId = true;
+
+				query.append(_FINDER_COLUMN_FACILITYID_FACILITYID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindFacilityId) {
+					qPos.add(facilityId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_FACILITYID_FACILITYID_2 =
+		"patient.facilityId LIKE ?";
+
+	private static final String _FINDER_COLUMN_FACILITYID_FACILITYID_3 =
+		"(patient.facilityId IS NULL OR patient.facilityId LIKE '')";
+
 	public PatientPersistenceImpl() {
 		setModelClass(Patient.class);
 
@@ -1452,6 +2522,12 @@ public class PatientPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByFirstName, args);
 
+			args = new Object[] {patientModelImpl.getLastName()};
+
+			finderCache.removeResult(_finderPathCountByLastName, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByLastName, args);
+
 			args = new Object[] {patientModelImpl.getEmailAddress()};
 
 			finderCache.removeResult(_finderPathCountByEmailAddress, args);
@@ -1480,6 +2556,25 @@ public class PatientPersistenceImpl
 				finderCache.removeResult(_finderPathCountByFirstName, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByFirstName, args);
+			}
+
+			if ((patientModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByLastName.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					patientModelImpl.getOriginalLastName()
+				};
+
+				finderCache.removeResult(_finderPathCountByLastName, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByLastName, args);
+
+				args = new Object[] {patientModelImpl.getLastName()};
+
+				finderCache.removeResult(_finderPathCountByLastName, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByLastName, args);
 			}
 
 			if ((patientModelImpl.getColumnBitmask() &
@@ -1813,6 +2908,25 @@ public class PatientPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByFirstName",
 			new String[] {String.class.getName()});
 
+		_finderPathWithPaginationFindByLastName = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, PatientImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLastName",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByLastName = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, PatientImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByLastName",
+			new String[] {String.class.getName()},
+			PatientModelImpl.LASTNAME_COLUMN_BITMASK);
+
+		_finderPathCountByLastName = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByLastName",
+			new String[] {String.class.getName()});
+
 		_finderPathWithPaginationFindByEmailAddress = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, PatientImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEmailAddress",
@@ -1830,6 +2944,19 @@ public class PatientPersistenceImpl
 		_finderPathCountByEmailAddress = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmailAddress",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByFacilityId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, PatientImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByFacilityId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithPaginationCountByFacilityId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByFacilityId",
 			new String[] {String.class.getName()});
 	}
 

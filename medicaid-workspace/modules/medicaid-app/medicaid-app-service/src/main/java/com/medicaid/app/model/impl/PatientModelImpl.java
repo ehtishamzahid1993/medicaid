@@ -131,9 +131,13 @@ public class PatientModelImpl
 
 	public static final long EMAILADDRESS_COLUMN_BITMASK = 1L;
 
-	public static final long FIRSTNAME_COLUMN_BITMASK = 2L;
+	public static final long FACILITYID_COLUMN_BITMASK = 2L;
 
-	public static final long PATIENTID_COLUMN_BITMASK = 4L;
+	public static final long FIRSTNAME_COLUMN_BITMASK = 4L;
+
+	public static final long LASTNAME_COLUMN_BITMASK = 8L;
+
+	public static final long PATIENTID_COLUMN_BITMASK = 16L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -461,7 +465,17 @@ public class PatientModelImpl
 
 	@Override
 	public void setLastName(String lastName) {
+		_columnBitmask |= LASTNAME_COLUMN_BITMASK;
+
+		if (_originalLastName == null) {
+			_originalLastName = _lastName;
+		}
+
 		_lastName = lastName;
+	}
+
+	public String getOriginalLastName() {
+		return GetterUtil.getString(_originalLastName);
 	}
 
 	@JSON
@@ -695,7 +709,17 @@ public class PatientModelImpl
 
 	@Override
 	public void setFacilityId(String facilityId) {
+		_columnBitmask |= FACILITYID_COLUMN_BITMASK;
+
+		if (_originalFacilityId == null) {
+			_originalFacilityId = _facilityId;
+		}
+
 		_facilityId = facilityId;
+	}
+
+	public String getOriginalFacilityId() {
+		return GetterUtil.getString(_originalFacilityId);
 	}
 
 	@JSON
@@ -881,7 +905,11 @@ public class PatientModelImpl
 
 		patientModelImpl._originalFirstName = patientModelImpl._firstName;
 
+		patientModelImpl._originalLastName = patientModelImpl._lastName;
+
 		patientModelImpl._originalEmailAddress = patientModelImpl._emailAddress;
+
+		patientModelImpl._originalFacilityId = patientModelImpl._facilityId;
 
 		patientModelImpl._setModifiedDate = false;
 
@@ -1130,6 +1158,7 @@ public class PatientModelImpl
 	private String _firstName;
 	private String _originalFirstName;
 	private String _lastName;
+	private String _originalLastName;
 	private String _emailAddress;
 	private String _originalEmailAddress;
 	private long _phoneNo;
@@ -1146,6 +1175,7 @@ public class PatientModelImpl
 	private String _documentIds;
 	private String _referralId;
 	private String _facilityId;
+	private String _originalFacilityId;
 	private Date _createDate;
 	private String _createdBy;
 	private Date _modifiedDate;

@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <f:view xmlns="http://www.w3.org/1999/xhtml"
    xmlns:f="http://xmlns.jcp.org/jsf/core"
    xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -6,102 +7,27 @@
    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
    xmlns:p="http://primefaces.org/ui">
- 
+	<h:head>
 <h:head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 <h:outputStylesheet library="css" name="style.css"/>
 
 </h:head>
-<h:body>
+	</h:head>
+	<h:body>
 
-   
-    
-    <div class="container">
-  			<div class="row">
-    			<div class="col-sm-9 col-md-6 col-lg-12">
-     				
-     				<div class="card">
-					    <h5>All Referrals</h5>
-					    <h:form>
-					    <p:growl id="messages" keepAlive="true"/>
-					        <p:dataTable id="tbl" var="referral" value="#{referralBean.referralList}" widgetVar="referralTable"
-					            emptyMessage="No Referrals found" rowKey="#{referral.referralId}"
-					            selection="#{referralBean.referral}" selectionMode="single">
-					
-					             <f:facet name="header">
-					            
-					            	<div class="flex justify-content-end">
-					                    <p:commandButton value="New Referral"  action="#{referralBean.addNewReferral}" update="@form" />
-					                    
-					                     <p:commandButton style="background: #8c9496;border: 1px solid #8C9496;" value="Edit Referral"  action="#{referralBean.editReferral}" update="@form" />
-					                     
-					                     <p:commandButton value="Export as CSV" styleClass="mr-2 mb-2">
-						                    <p:dataExporter type="csv" target="tbl" fileName="referral" />
-						                </p:commandButton>
-					                
-					                    <p:inputText  id="globalFilter" onkeyup="PF('referralTable').filter()" style="width:300px; float:right !important;"
-					                                 placeholder="Search" />
-					                </div>
-					            </f:facet>
-					
-					            <p:column headerText="Referred ID" filterBy="#{referral.referralId}" filterMatchMode="contains">
-					                <h:outputText value="#{referral.referralId}" />
-					            </p:column>
-					
-					            <p:column  headerText="Centers" filterBy="#{referral.facilities}" filterMatchMode="contains">
-					                
-					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityName(referral.facilities)}" />
-					            </p:column>
-					            
-					             <p:column  headerText="Facility Contact" filterBy="#{referral.facilityAdmin}" filterMatchMode="contains" >
-					               
-					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getFacilityAdmin(referral.facilityAdmin)}" />
-					            </p:column>
-					            
-					            <p:column headerText="Patient" filterBy="#{referral.patientId}" filterMatchMode="contains" >
-					               
-					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referralBean.getPatientName(referral.patientId)}" />
-					            </p:column>
-					
-					            <p:column field="submitDate" headerText="Submit Date" filterMatchMode="between">
-					                <f:facet name="filter">
-					                    <p:datePicker selectionMode="range" onchange="PF('referralTable').filter()" />
-					                </f:facet>
-					                <h:outputText value="#{referral.submitDate}">
-					                	 <f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
-					                </h:outputText>
-					            </p:column>
-					
-								<p:column headerText="Res. Liability" filterBy="#{referral.resLiability}" filterMatchMode="contains" >
-					                <h:outputText value="$#{referral.resLiability}">
-					                </h:outputText>
-					            </p:column>
-					            
-					            <p:column field="cocEmailSent" headerText="COC Email Sent" filterMatchMode="between" >
-					             	<f:facet name="filter1">
-					                    <p:datePicker selectionMode="range" onchange="PF('referralTable').filter()" />
-					                </f:facet>
-					                <h:outputText value="#{referral.emailSentDueDate}" >
-					                	<f:convertDateTime pattern="MM-dd-yyyy"></f:convertDateTime>
-					                </h:outputText>
-					            </p:column>	
-					            
-					            <p:column field="status" headerText="Status" filterBy="#{referral.status}" filterMatchMode="contains">
-					               
-					                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{referral.status}" />
-					            </p:column>
-					
-					        </p:dataTable>
-					    </h:form>
-					</div>
-     					
-    			</div>    			
-  			</div>
-  	</div>
-    
-    
-    
+		<h:form>
+			<ui:fragment rendered="#{referralBean.showViewPage}">
+				<ui:include src="viewTable.xhtml"></ui:include>
+			</ui:fragment>
+
+			<ui:fragment rendered="#{!referralBean.showViewPage}">
+				<ui:include src="addEdit.xhtml"></ui:include>
+			</ui:fragment>
+		</h:form>
+			
 
 
-</h:body>
+	</h:body>
+
 </f:view>

@@ -38,6 +38,8 @@ public class FacilityBean implements Serializable {
 	private ThemeDisplay themeDisplay;
 	private User user;
 	
+	private Boolean showViewPage=true;
+	
 	@PostConstruct
 	public void init() {
 		log.info("inside facility init");
@@ -49,7 +51,7 @@ public class FacilityBean implements Serializable {
 			for (Role role2 : role) {
 				if(role2.getName().equals("Facility Admin"))
 				{
-					showButtons=false;
+					//showButtons=false;
 				}
 			}
 		} catch (Exception e) {
@@ -113,7 +115,7 @@ public class FacilityBean implements Serializable {
 		
 	}
 	
-	public String save()
+	public void save()
 	{
 		if(facility.getFacilityId()==0) {
 			facility.setFacilityId(CounterLocalServiceUtil.increment(Facility.class.getCanonicalName()));
@@ -123,22 +125,26 @@ public class FacilityBean implements Serializable {
 		SessionUtil.removeSessionAttribute("facility");
 		log.info(SessionUtil.getSessionAttribute("facilitity"));
 		SessionUtil.setSessionAttribute("isEdit", false);
-		return "view?faces-redirect=true";
+		showViewPage=true;
 	}
 	
 	
-	public String addNewFacility() {
+	public void addNewFacility() {
 		log.info("inside add facility");		
 		log.info("facility "+facility );
-		
-		return "addEdit?faces-redirect=true";
+		showViewPage=false;
+		//return "/WEB-INF/views/facility/addEdit.xhtml?faces-redirect=true";
 	}
-	public String editFacility()
+	
+	
+	
+	public void editFacility()
 	{
 		isEdit=true;
 		SessionUtil.setSessionAttribute("facility", facility);
 		SessionUtil.setSessionAttribute("isEdit", true);
-		return "addEdit?faces-redirect=true";
+		showViewPage=false;
+		//return "addEdit?faces-redirect=true";
 	}
 
 	public List<Facility> getFacilitiesList() {
@@ -222,6 +228,14 @@ public class FacilityBean implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Boolean getShowViewPage() {
+		return showViewPage;
+	}
+
+	public void setShowViewPage(Boolean showViewPage) {
+		this.showViewPage = showViewPage;
 	}
 	
 	

@@ -98,18 +98,27 @@ public class HomeUtil implements Serializable {
 		try {
 			
 
-			List<Patient> list=null;
+			List<Patient> list=new ArrayList<Patient>();
 			
 			String[] array=facilityIds.split(",");
 			
 			
 			try {
 				DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Patient.class, PortalClassLoaderUtil.getClassLoader());
+				dynamicQuery.add(PropertyFactoryUtil.forName("emailAddress").eq(searchText));
 				for (int i = 0; i < array.length; i++) {
 					dynamicQuery.add(PropertyFactoryUtil.forName("facilityId").like("%"+array[i]+",%"));
+					List<Patient> patientsList=PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+					
+					if(patientsList!=null && patientsList.size()>0)
+					{
+						for (Patient patient : patientsList) {
+							list.add(patient);
+						}
+					}
 				}			
-				dynamicQuery.add(PropertyFactoryUtil.forName("emailAddress").eq(searchText));
-				list = PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+				
+				log.info("list "+list.size());
 			} catch (Exception e) {
 				log.error(FormattingUtil.getMessage(e));
 			}
@@ -119,11 +128,21 @@ public class HomeUtil implements Serializable {
 			}else{
 				try {
 					DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Patient.class, PortalClassLoaderUtil.getClassLoader());
+					dynamicQuery.add(PropertyFactoryUtil.forName("firstName").eq(searchText));
 					for (int i = 0; i < array.length; i++) {
 						dynamicQuery.add(PropertyFactoryUtil.forName("facilityId").like("%"+array[i]+",%"));
+						
+						List<Patient> patientsList=PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+						
+						if(patientsList!=null && patientsList.size()>0)
+						{
+							for (Patient patient : patientsList) {
+								list.add(patient);
+							}
+						}
 					}			
-					dynamicQuery.add(PropertyFactoryUtil.forName("firstName").eq(searchText));
-					list = PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+					
+					log.info("list "+list.size());
 				} catch (Exception e) {
 					log.error(FormattingUtil.getMessage(e));
 				}
@@ -134,11 +153,20 @@ public class HomeUtil implements Serializable {
 				{
 					try {
 						DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Patient.class, PortalClassLoaderUtil.getClassLoader());
+						dynamicQuery.add(PropertyFactoryUtil.forName("lastName").eq(searchText));
 						for (int i = 0; i < array.length; i++) {
 							dynamicQuery.add(PropertyFactoryUtil.forName("facilityId").like("%"+array[i]+",%"));
+							
+							List<Patient> patientsList=PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+							if(patientsList!=null && patientsList.size()>0)
+							{
+								for (Patient patient : patientsList) {
+									list.add(patient);
+								}
+							}
 						}			
-						dynamicQuery.add(PropertyFactoryUtil.forName("lastName").eq(searchText));
-						list = PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+						
+						log.info("list "+list.size());
 					} catch (Exception e) {
 						log.error(FormattingUtil.getMessage(e));
 					}

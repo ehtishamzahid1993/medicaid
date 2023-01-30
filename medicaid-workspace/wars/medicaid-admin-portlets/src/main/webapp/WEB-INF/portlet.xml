@@ -8,6 +8,37 @@
 	
 	
 	<portlet>
+		<portlet-name>facility-addedit-admin</portlet-name>
+		<display-name>facility-addedit-admin</display-name>
+		<portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>
+		<init-param>
+			<name>javax.portlet.faces.defaultViewId.view</name>
+			<value>/WEB-INF/views/facility/addEdit.xhtml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>facility-addedit-admin</title>
+			<short-title>facility-addedit-admin</short-title>
+			<keywords>facility-addedit-admin</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	
+	<portlet>
 		<portlet-name>patient-admin</portlet-name>
 		<display-name>patient-admin</display-name>
 		<portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>

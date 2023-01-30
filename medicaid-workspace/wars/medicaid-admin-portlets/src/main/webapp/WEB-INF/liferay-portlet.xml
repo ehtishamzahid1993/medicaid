@@ -34,6 +34,16 @@
 		</footer-portlet-javascript>
 	</portlet>
 	<portlet>
+		<portlet-name>facility-addedit-admin</portlet-name>
+		<icon>/resources/images/icon.png</icon>
+		<private-session-attributes>false</private-session-attributes>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>
+			/js/main.js
+		</footer-portlet-javascript>
+	</portlet>
+	<portlet>
 		<portlet-name>login-admin</portlet-name>
 		<icon>/resources/images/icon.png</icon>
 		<private-session-attributes>false</private-session-attributes>

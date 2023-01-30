@@ -76,6 +76,8 @@ public class PatientBean implements Serializable {
 	 private List<Referral> referrals;
 	private List<String> selectedReferrals=new ArrayList<String>();
 	
+	private Boolean showViewPage=true;
+	
 	@PostConstruct
 	public void init() {
 		log.info("inside patient init");
@@ -103,8 +105,15 @@ public class PatientBean implements Serializable {
 						DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Patient.class, PortalClassLoaderUtil.getClassLoader());
 						for (int i = 0; i < array.length; i++) {
 							dynamicQuery.add(PropertyFactoryUtil.forName("facilityId").like("%"+array[i]+",%"));
+							List<Patient> list=PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+							if(list!=null && list.size()>0)
+							{
+								for (Patient patient : list) {
+									patientsList.add(patient);
+								}
+							}
 						}					
-						 patientsList = PatientLocalServiceUtil.dynamicQuery(dynamicQuery);
+						 log.info("patientsList "+patientsList.size());
 					} catch (Exception e) {
 						log.error(FormattingUtil.getMessage(e));
 					}
@@ -275,7 +284,7 @@ public class PatientBean implements Serializable {
 	    }
 	}
 	
-	public String save()
+	public void save()
 	{
 		String dlFileEntryIds="";
 		if(uploadedFiles!=null)
@@ -341,22 +350,22 @@ public class PatientBean implements Serializable {
 		}
 		SessionUtil.removeSessionAttribute("patient");
 		SessionUtil.setSessionAttribute("isEdit", false);
-		return "view?faces-redirect=true";
+		showViewPage=true;
 	}
 	
 	
-	public String addNewPatient() {
+	public void addNewPatient() {
 		log.info("inside add patient");		
 		log.info("patient "+patient );
 		
-		return "addEdit?faces-redirect=true";
+		showViewPage=false;
 	}
-	public String editPatient()
+	public void editPatient()
 	{
 		isEdit=true;
 		SessionUtil.setSessionAttribute("patient", patient);
 		SessionUtil.setSessionAttribute("isEdit", true);
-		return "addEdit?faces-redirect=true";
+		showViewPage=false;
 	}
 
 
@@ -512,6 +521,14 @@ public class PatientBean implements Serializable {
 
 	public void setSelectedReferrals(List<String> selectedReferrals) {
 		this.selectedReferrals = selectedReferrals;
+	}
+
+	public Boolean getShowViewPage() {
+		return showViewPage;
+	}
+
+	public void setShowViewPage(Boolean showViewPage) {
+		this.showViewPage = showViewPage;
 	}
 
 

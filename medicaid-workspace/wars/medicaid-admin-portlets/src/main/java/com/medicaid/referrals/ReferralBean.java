@@ -65,6 +65,8 @@ public class ReferralBean implements Serializable {
 	private Note note;
 	
 	private Boolean editReferral=true;
+	
+	private Boolean showViewPage=true;
 
 	
 	
@@ -220,7 +222,7 @@ public class ReferralBean implements Serializable {
 		return null;
 	}
 	
-	public String save()
+	public void save()
 	{
 		if(referral.getReferralId()==0) {
 			referral.setReferralId(CounterLocalServiceUtil.increment(Referral.class.getCanonicalName()));
@@ -264,36 +266,36 @@ public class ReferralBean implements Serializable {
 		ReferralLocalServiceUtil.updateReferral(referral);
 		SessionUtil.removeSessionAttribute("referral");
 		SessionUtil.setSessionAttribute("isEdit", false);
-		return "view?faces-redirect=true";
+		showViewPage=true;
 	}
 	
 	
-	public String addNewReferral() {
+	public void addNewReferral() {
 		log.info("inside add referral");		
 		log.info("referral "+referral );		
-		return "addEdit?faces-redirect=true";
+		showViewPage=false;
 	}
 	
-	public String redirectToViewPage() {
+	public void redirectToViewPage() {
 		log.info("inside add referral");		
 		log.info("referral "+referral );		
-		return "view?faces-redirect=true";
+		showViewPage=true;
 	}
-	public String editReferral()
+	public void editReferral()
 	{
 		isEdit=true;
 		log.info("referral "+referral);
 		
-		if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
+		/*if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
 			FacesMessage message = new FacesMessage("Cannot Edit Denied and Withdrawn Referrals");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            return null;
+		    FacesContext.getCurrentInstance().addMessage(null, message);
+		    return null;
 		}else
-		{
+		{*/
 			SessionUtil.setSessionAttribute("referral", referral);
 			SessionUtil.setSessionAttribute("isEdit", true);
-			return "addEdit?faces-redirect=true";
-		}
+			showViewPage=false;
+		//}
 		
 		
 		

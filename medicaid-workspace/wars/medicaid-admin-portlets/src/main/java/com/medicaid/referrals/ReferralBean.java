@@ -66,7 +66,7 @@ public class ReferralBean implements Serializable {
 	
 	private Boolean editReferral=true;
 	
-	private Boolean showViewPage=true;
+	private String step="viewRegister";
 
 	
 	
@@ -165,21 +165,13 @@ public class ReferralBean implements Serializable {
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
-		if(referral!=null)
-		{	
-			if(isEdit) {
-				if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
-					editReferral=false;
-				}
-			}
-		}
 		
 	
 	}
 	
 	private void setNotes() {
 		try {
-			if(isEdit && referral!=null) {
+			if(step.equals("EditRegister") && referral!=null) {
 				notesList=NoteLocalServiceUtil.findByReferralId(referral.getReferralId());
 			}
 		} catch (Exception e) {
@@ -189,7 +181,7 @@ public class ReferralBean implements Serializable {
 	}
 
 	private void setFacilities() {
-		if(isEdit && referral!=null) {
+		if(step.equals("EditRegister") && referral!=null) {
 		String facilityIds=referral.getFacilities();
 		if(facilityIds!=null && !facilityIds.trim().equals("")) {
 			String[] array=facilityIds.split(",");
@@ -266,41 +258,41 @@ public class ReferralBean implements Serializable {
 		ReferralLocalServiceUtil.updateReferral(referral);
 		SessionUtil.removeSessionAttribute("referral");
 		SessionUtil.setSessionAttribute("isEdit", false);
-		showViewPage=true;
+		step="viewRegister";
 	}
 	
 	
-	public void addNewReferral() {
-		log.info("inside add referral");		
-		log.info("referral "+referral );		
-		showViewPage=false;
-	}
 	
-	public void redirectToViewPage() {
-		log.info("inside add referral");		
-		log.info("referral "+referral );		
-		showViewPage=true;
-	}
-	public void editReferral()
-	{
-		isEdit=true;
-		log.info("referral "+referral);
-		
-		/*if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
+	
+	public void flowSwitch(String stepToShow) {
+		log.info("stepToShow "+stepToShow);
+		step=stepToShow;
+		log.info("step "+step);
+		if(step.equals("addRegister"))
+		{
+			referral=ReferralLocalServiceUtil.createReferral(0);
+		}
+		if(step.equals("EditRegister"))
+		{
+			try {
+				setFacilities();
+			}catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+			try {
+				setNotes();
+			} catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+		}/*else if(step.equals("EditRegister")) {
+			if(referral.getStatus().equals("Denied") || referral.getStatus().equals("Withdrawn")) {
 			FacesMessage message = new FacesMessage("Cannot Edit Denied and Withdrawn Referrals");
-		    FacesContext.getCurrentInstance().addMessage(null, message);
-		    return null;
-		}else
-		{*/
-			SessionUtil.setSessionAttribute("referral", referral);
-			SessionUtil.setSessionAttribute("isEdit", true);
-			showViewPage=false;
-		//}
-		
-		
-		
-		
+			   FacesContext.getCurrentInstance().addMessage(null, message);
+			   
+			}*/
 	}
+		
+	
 	
 	
 	
@@ -492,6 +484,16 @@ public class ReferralBean implements Serializable {
 	public void setEditReferral(Boolean editReferral) {
 		this.editReferral = editReferral;
 	}
+
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
+	}
+
+
 
 	
 	

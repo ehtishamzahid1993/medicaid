@@ -39,6 +39,7 @@ public class FacilityBean implements Serializable {
 	private User user;
 	
 	private Boolean showViewPage=true;
+	private String step="viewRegister";
 	
 	@PostConstruct
 	public void init() {
@@ -107,6 +108,7 @@ public class FacilityBean implements Serializable {
 					states.add(jsonObject.getString("name"));
 				}
 			}
+			log.info("states "+states);
 		}catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
@@ -122,29 +124,22 @@ public class FacilityBean implements Serializable {
 		}
 		log.info("facility "+facility);
 		FacilityLocalServiceUtil.updateFacility(facility);
-		SessionUtil.removeSessionAttribute("facility");
-		log.info(SessionUtil.getSessionAttribute("facilitity"));
-		SessionUtil.setSessionAttribute("isEdit", false);
-		showViewPage=true;
-	}
-	
-	
-	public void addNewFacility() {
-		log.info("inside add facility");		
-		log.info("facility "+facility );
-		showViewPage=false;
-		//return "/WEB-INF/views/facility/addEdit.xhtml?faces-redirect=true";
+		step="viewRegister";
 	}
 	
 	
 	
-	public void editFacility()
-	{
-		isEdit=true;
-		SessionUtil.setSessionAttribute("facility", facility);
-		SessionUtil.setSessionAttribute("isEdit", true);
-		showViewPage=false;
-		//return "addEdit?faces-redirect=true";
+	
+	
+	public void flowSwitch(String stepToShow) {
+		log.info("stepToShow "+stepToShow);
+		step=stepToShow;
+		log.info("step "+step);
+		if(step.equals("addRegister"))
+		{
+			facility=FacilityLocalServiceUtil.createFacility(0);
+		}
+		
 	}
 
 	public List<Facility> getFacilitiesList() {
@@ -236,6 +231,14 @@ public class FacilityBean implements Serializable {
 
 	public void setShowViewPage(Boolean showViewPage) {
 		this.showViewPage = showViewPage;
+	}
+
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
 	}
 	
 	

@@ -1,4 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<?xml version="1.0"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
    xmlns:f="http://xmlns.jcp.org/jsf/core"
    xmlns:h="http://xmlns.jcp.org/jsf/html"
    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -13,8 +14,8 @@
     <div class="container">
   			<div class="row">
     			<div class="col-sm-9 col-md-6 col-lg-12">  
-    				<h:panelGroup rendered="#{!facilityBean.isEdit}"> <h1 >New Facility</h1>  </h:panelGroup>
-    				<h:panelGroup rendered="#{facilityBean.isEdit}"> <h1 >Edit Facility</h1>  </h:panelGroup>
+    				<h:panelGroup rendered="#{facilityBean.step eq 'addRegister'}"> <h1 >New Facility</h1>  </h:panelGroup>
+    				<h:panelGroup rendered="#{facilityBean.step eq 'EditRegister'}"> <h1 >Edit Facility</h1>  </h:panelGroup>
     			</div>    			
   			</div>
   			
@@ -96,8 +97,9 @@
 	  			</div>
 	  			<div class="row">
 	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				 <p:commandButton style="margin-top:2%" value="Update Facility" rendered="#{facilityBean.isEdit}"  action="#{facilityBean.save}" update="@form"/>
-	    				 <p:commandButton style="margin-top:2%" value="Add Facility" rendered="#{!facilityBean.isEdit}"  action="#{facilityBean.save}" update="@form"/>
+	    				 <h:commandButton style="height: 40px;" value="Update Facility" rendered="#{facilityBean.step eq 'EditRegister'}"  action="#{facilityBean.save}" update="@form"/>
+	    				 <h:commandButton style="height: 40px;" value="Add Facility" rendered="#{facilityBean.step eq 'addRegister'}"  action="#{facilityBean.save}" update="@form"/>
+	    				
 	    			</div>    			
 	  			</div>
 	  			
@@ -108,4 +110,4 @@
     
     
     
-</ui:composition>
+</f:view>

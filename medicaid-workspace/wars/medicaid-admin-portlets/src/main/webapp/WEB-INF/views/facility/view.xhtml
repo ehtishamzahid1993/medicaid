@@ -1,33 +1,71 @@
 <?xml version="1.0"?>
-
 <f:view xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:f="http://xmlns.jcp.org/jsf/core"
-   xmlns:h="http://xmlns.jcp.org/jsf/html"
-   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-   xmlns:p="http://primefaces.org/ui">
-	<h:head>
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 <h:outputStylesheet library="css" name="style.css"/>
 
 </h:head>
-	</h:head>
+
 	<h:body>
+		
 
-		<h:form>
-			<ui:fragment rendered="#{facilityBean.showViewPage}">
-				<ui:include src="viewTable.xhtml"></ui:include>
-			</ui:fragment>
-
-			<ui:fragment rendered="#{!facilityBean.showViewPage}">
-				<ui:include src="addEdit.xhtml"></ui:include>
-			</ui:fragment>
-		</h:form>
+		
+		<h:panelGroup layout="block" id="mainBlock">
+		
+			<h:panelGroup rendered="#{facilityBean.step eq 'viewRegister'}">
+			<div class="row">
+    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
+					<h5>All Facilities</h5>
+				</div>
+			</div>		
+			<div class="row">
+    			<div class="col-sm-9 col-md-6 col-lg-12"> 		
+					<h:commandButton  style="height: 40px;" action="#{facilityBean.flowSwitch('addRegister')}"
+						value="New Facility">
+						<f:ajax execute="@form" render="mainBlock" />
+					</h:commandButton>
+					
+					<h:commandButton  style="height: 40px;" action="#{facilityBean.flowSwitch('EditRegister')}"
+						value="Edit Facility">
+						<f:ajax execute="@form" render="mainBlock" />
+					</h:commandButton>
+				</div>
+			</div>
 			
+			
+				<h:form enctype="multipart/form-data">
 
+					<ui:include src="viewTable.xhtml" />
 
+				</h:form>
+
+			</h:panelGroup>
+			<h:panelGroup rendered="#{facilityBean.step eq 'EditRegister'}">
+				<h:form enctype="multipart/form-data">
+
+					<ui:include src="addEdit.xhtml" />
+				</h:form>
+
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{facilityBean.step eq 'addRegister'}">
+				<h:form enctype="multipart/form-data">
+
+					<ui:include src="addEdit.xhtml" />
+					
+					<h:commandButton style="height: 40px;" action="#{facilityBean.flowSwitch('viewRegister')}"
+							value="Back">
+							<f:ajax execute="@form" render="mainBlock" />
+						</h:commandButton>
+				</h:form>
+
+			</h:panelGroup>
+		</h:panelGroup>
+
+		
 	</h:body>
-
 </f:view>

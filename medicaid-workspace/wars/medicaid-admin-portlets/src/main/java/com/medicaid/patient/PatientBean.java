@@ -77,6 +77,7 @@ public class PatientBean implements Serializable {
 	private List<String> selectedReferrals=new ArrayList<String>();
 	
 	private Boolean showViewPage=true;
+	private String step="viewRegister";
 	
 	@PostConstruct
 	public void init() {
@@ -169,21 +170,7 @@ public class PatientBean implements Serializable {
 			log.error(FormattingUtil.getMessage(e));
 		}
 		referrals=ReferralLocalServiceUtil.getReferrals(-1, -1);
-		try {
-			setFacilities();
-		}catch (Exception e) {
-			log.error(FormattingUtil.getMessage(e));
-		}
-		try {
-			getDocuments(patient);
-		} catch (Exception e) {
-			log.error(FormattingUtil.getMessage(e));
-		}
-		try {
-			setReferrals();
-		} catch (Exception e) {
-			log.error(FormattingUtil.getMessage(e));
-		}
+		
 			
 		
 		
@@ -191,7 +178,7 @@ public class PatientBean implements Serializable {
 	
 	private void getDocuments(Patient patient2) {
 		try {
-			if(isEdit && patient!=null) {
+			if(step.equals("EditRegister") && patient!=null) {
 				if(patient.getDocumentIds()!=null && !patient.getDocumentIds().trim().equals("")) {
 					documentsList=DocumentLocalServiceUtil.findByPatientId(patient.getPatientId());
 				}
@@ -230,37 +217,54 @@ public class PatientBean implements Serializable {
 
 
 	private void setFacilities() {
-		if(isEdit && patient!=null) {
+		log.info("step "+step);
+		log.info("patient "+patient);
+		if(step.equals("EditRegister") && patient!=null) {
 		String facilityIds=patient.getFacilityId();
+		log.info("facilityIds "+facilityIds);
 		if(facilityIds!=null && !facilityIds.trim().equals("")) {
+			log.info("facilityIds "+facilityIds);
 			String[] array=facilityIds.split(",");
+			log.info("array "+array);
 			for (int i = 0; i < array.length; i++) {
 				try {
+					log.info("array[i] "+array[i]);
 					Facility facility=FacilityLocalServiceUtil.getFacility(Long.valueOf(array[i]));
+					log.info("facility "+facility);
 					String value=""+ facility;
 					selectedFacilities.add(value);
 				} catch (Exception e) {
 					log.error(FormattingUtil.getMessage(e));
 				}
 			}
+			log.info("selectedFacilities "+selectedFacilities);
 		}
 		}
 	}
 	
 	private void setReferrals() {
-		if(isEdit && patient!=null) {
+		log.info("set referrals ");
+		if(step.equals("EditRegister") && patient!=null) {
+			log.info("patient "+patient);
 		String referralIds=patient.getReferralId();
+		log.info("referralIds "+referralIds);
 		if(referralIds!=null && !referralIds.trim().equals("")) {
+			log.info("referralIds "+referralIds);
 			String[] array=referralIds.split(",");
+			log.info("array "+array);
 			for (int i = 0; i < array.length; i++) {
 				try {
+					log.info("array[i] "+array[i]);
 					Referral referral=ReferralLocalServiceUtil.getReferral(Long.valueOf(array[i]));
 					String value=""+ referral;
+					log.info("referral "+referral);
 					selectedReferrals.add(value);
 				} catch (Exception e) {
 					log.error(FormattingUtil.getMessage(e));
 				}
 			}
+			log.info("selectedReferrals "+selectedReferrals);
+			log.info("selectedReferrals "+selectedReferrals);
 		}
 		}
 	}
@@ -350,22 +354,37 @@ public class PatientBean implements Serializable {
 		}
 		SessionUtil.removeSessionAttribute("patient");
 		SessionUtil.setSessionAttribute("isEdit", false);
-		showViewPage=true;
+		step="viewRegister";
 	}
 	
 	
-	public void addNewPatient() {
-		log.info("inside add patient");		
-		log.info("patient "+patient );
+	public void flowSwitch(String stepToShow) {
+		log.info("stepToShow "+stepToShow);
+		step=stepToShow;
+		log.info("step "+step);
+		if(step.equals("addRegister"))
+		{
+			patient=PatientLocalServiceUtil.createPatient(0);
+		}
+		if(step.equals("EditRegister"))
+		{
+			try {
+				setFacilities();
+			}catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+			try {
+				getDocuments(patient);
+			} catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+			try {
+				setReferrals();
+			} catch (Exception e) {
+				log.error(FormattingUtil.getMessage(e));
+			}
+		}
 		
-		showViewPage=false;
-	}
-	public void editPatient()
-	{
-		isEdit=true;
-		SessionUtil.setSessionAttribute("patient", patient);
-		SessionUtil.setSessionAttribute("isEdit", true);
-		showViewPage=false;
 	}
 
 
@@ -529,6 +548,14 @@ public class PatientBean implements Serializable {
 
 	public void setShowViewPage(Boolean showViewPage) {
 		this.showViewPage = showViewPage;
+	}
+
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
 	}
 
 

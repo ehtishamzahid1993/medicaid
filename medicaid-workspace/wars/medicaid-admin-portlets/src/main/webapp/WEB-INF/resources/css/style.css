@@ -58,6 +58,16 @@ body .ui-card {
 		    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
 		    margin: 3px;
 		}
+		button, input {
+	    	background: #16A0AA;
+		    color: #fff;
+		    border: 1px solid #16A0AA;
+		    margin: 0;
+		    outline: 0 none;
+		    border-radius: 4px;
+		    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+		    margin: 3px;
+	}
  .ui-filter-column .ui-column-customfilter .custom-filter {
         width: 100%;
         box-sizing: border-box;

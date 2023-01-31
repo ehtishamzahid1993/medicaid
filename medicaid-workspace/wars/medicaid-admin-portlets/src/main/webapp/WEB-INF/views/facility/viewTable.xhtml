@@ -1,4 +1,5 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<?xml version="1.0"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
    xmlns:f="http://xmlns.jcp.org/jsf/core"
    xmlns:h="http://xmlns.jcp.org/jsf/html"
    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -10,7 +11,7 @@
    
     
     
-					    <h5>All Facilities</h5>
+					    
 					    
 					        <p:dataTable id="tbl" var="facility" value="#{facilityBean.facilitiesList}" widgetVar="facilityTable"
 					            emptyMessage="No Facilities found" rowKey="#{facility.facilityId}"
@@ -19,10 +20,6 @@
 					            <f:facet name="header">
 					            
 					            	<div class="flex justify-content-end">
-					                    <p:commandButton rendered="#{facilityBean.showButtons}" ajax="false" value="New Facility"  action="#{facilityBean.addNewFacility}"  />
-					                    
-					                     <p:commandButton rendered="#{facilityBean.showButtons}" style="background: #8c9496;border: 1px solid #8C9496;"
-					                      value="Edit Facility"  action="#{facilityBean.editFacility}" update="@form" />
 					                     
 					                     <p:commandButton value="Export as CSV" styleClass="mr-2 mb-2">
 						                    <p:dataExporter type="csv" target="tbl" fileName="facilities" />
@@ -66,4 +63,4 @@
 					        </p:dataTable>
     
     
-</ui:composition>
+</f:view>

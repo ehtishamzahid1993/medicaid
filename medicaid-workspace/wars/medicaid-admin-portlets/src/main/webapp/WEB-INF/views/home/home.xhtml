@@ -31,7 +31,7 @@
      				<p:selectManyMenu id="facilities" value="#{homeBean.selectedFacilities}" 
                             converter="#{facilityConverter}" 
                             var="c" showCheckbox="true" >
-                            <p:ajax listener="#{homeBean.setFacilityChange}" update="referralCards"/>
+                        <p:ajax listener="#{homeBean.setFacilityChange}" update="referralCards"/>
 			            <f:selectItems value="#{homeBean.facilities}" var="country" itemLabel="#{country.name}"
 			                            itemValue="#{country}" />
 			            <p:column>

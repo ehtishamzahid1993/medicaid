@@ -91,7 +91,9 @@ public class PatientBean implements Serializable {
 			SessionUtil.setSessionAttribute("patientList", null);
 		}else
 		{
-			try {
+			patientsList=PatientLocalServiceUtil.getPatients(-1, -1);
+			facilities=FacilityLocalServiceUtil.getFacilities(-1,-1);
+			/*try {
 				String facilityIds="";
 				try {
 					facilityIds=(String) user.getExpandoBridge().getAttribute("Facilities");
@@ -134,7 +136,7 @@ public class PatientBean implements Serializable {
 				}
 			} catch (Exception e) {
 				log.error(FormattingUtil.getMessage(e));
-			}
+			}*/
 		}
 		
 		try {

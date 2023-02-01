@@ -58,7 +58,7 @@ public class FacilityBean implements Serializable {
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
-		try {
+		/*try {
 			String facilities="";
 			try {
 				facilities=(String) user.getExpandoBridge().getAttribute("Facilities");
@@ -77,7 +77,8 @@ public class FacilityBean implements Serializable {
 			}
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
-		}
+		}*/
+		facilitiesList=FacilityLocalServiceUtil.getFacilities(-1, -1);
 		
 		
 		try {

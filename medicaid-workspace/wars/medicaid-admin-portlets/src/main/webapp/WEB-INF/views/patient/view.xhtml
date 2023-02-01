@@ -21,7 +21,8 @@
     			<div class="col-sm-9 col-md-6 col-lg-12"> 	
 					<h5>All Patients</h5>
 				</div>
-			</div>		
+			</div>
+			<h:form enctype="multipart/form-data">		
 			<div class="row">
     			<div class="col-sm-9 col-md-6 col-lg-12"> 		
 					<h:commandButton  style="height: 40px;" action="#{patientBean.flowSwitch('addRegister')}"
@@ -37,7 +38,7 @@
 			</div>
 			
 			
-				<h:form enctype="multipart/form-data">
+				
 
 					<ui:include src="viewTable.xhtml" />
 

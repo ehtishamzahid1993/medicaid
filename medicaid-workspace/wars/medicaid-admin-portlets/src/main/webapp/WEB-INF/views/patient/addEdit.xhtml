@@ -1,228 +1,255 @@
 <?xml version="1.0"?>
 <f:view xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:f="http://xmlns.jcp.org/jsf/core"
-   xmlns:h="http://xmlns.jcp.org/jsf/html"
-   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-   xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-   xmlns:p="http://primefaces.org/ui">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
 
-   
-    
-    <div class="container">
-  			<div class="row">
-    			<div class="col-sm-9 col-md-6 col-lg-12">  
-    				<h:panelGroup rendered="#{patientBean.step eq 'addRegister'}"> <h1 >New Patient</h1>  </h:panelGroup>
-    				<h:panelGroup rendered="#{patientBean.step eq 'EditRegister'}"> <h1 >Edit Patient</h1>  </h:panelGroup>
-    			</div>    			
-  			</div>
-  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="First Name*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="firstName" value="#{patientBean.patient.firstName}" required="true" ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Last Name*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="lastName" value="#{patientBean.patient.lastName}" required="true" ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Date of Birth*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				 <p:datePicker style="width:100%;" id="basic" value="#{patientBean.patient.dateOfBirth}" required="true" maxdate="#{patientBean.todaysDate}"/>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Email"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="emailAddress" value="#{patientBean.patient.emailAddress}"  ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Phone"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputNumber id="phoneNo" value="#{patientBean.patient.phoneNo}" ></p:inputNumber>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Referrals"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 
-		                <p:selectManyMenu id="referrals" value="#{patientBean.selectedReferrals}"
-                            converter="#{referralConverter}" 
-                            var="c" showCheckbox="true" >
-			            <f:selectItems value="#{patientBean.referrals}" var="country" itemLabel="#{country.referralId}"
-			                            itemValue="#{country}" />
-			
-			
-			            <p:column>
-			                <h:outputText value="#{c.referralId}"/>
-			            </p:column>
-			        </p:selectManyMenu>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Facilities"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 
-		                <p:selectManyMenu id="advanced" value="#{patientBean.selectedFacilities}"
-                            converter="#{facilityConverter}" 
-                            var="c" showCheckbox="true" >
-			            <f:selectItems value="#{patientBean.facilities}" var="country" itemLabel="#{country.name}"
-			                            itemValue="#{country}" />
-			
-			
-			            <p:column>
-			                <h:outputText value="#{c.name}"/>
-			            </p:column>
-			        </p:selectManyMenu>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Admit Date"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				 <p:datePicker style="width:100%;" id="admitDate" value="#{patientBean.patient.admitDate}"  maxdate="#{patientBean.todaysDate}"/>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Admit Payer"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="admitPayer" value="#{patientBean.patient.admitPayer}" ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Medicaid Need Date"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				 <p:datePicker style="width:100%;" id="medicaidNeedDate" value="#{patientBean.patient.medicaidNeedDate}" maxdate="#{patientBean.todaysDate}"/>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Have Medicaid"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				 <p:toggleSwitch value="#{patientBean.patient.haveMedicaid}"/>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Resident Liability Email Sent"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				 <p:toggleSwitch value="#{patientBean.patient.residentLiabilityEmailSent}"/>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Address*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="address" value="#{patientBean.patient.address}" ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="City*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="city" value="#{patientBean.patient.city}" ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="ZipCode*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:inputText id="zipCode" value="#{patientBean.patient.zipCode}" ></p:inputText>
-	    			</div>    			
-	  			</div>
-	  			
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="State*"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				<p:selectOneMenu id="state" value="#{patientBean.patient.state}" dynamic="true" required="true">
-		                    <f:selectItem itemLabel="Select One" itemValue=""/>
-		                    <f:selectItems value="#{patientBean.states}"/>
-		                </p:selectOneMenu>
-	    			</div>    			
-	  			</div>
-	  			<div class="row">
-	  				<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				<p:outputLabel value="Documents"></p:outputLabel>
-	    			</div>	
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-			  			 <p:fileUpload listener="#{patientBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
-		                      multiple="true" update="messages" sizeLimit="100000000" fileLimit="3"
-		                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>		                      
-		                      <p:growl id="messages" showDetail="true" keepAlive="true"/>		                      		                      
-                     </div>
-                </div>
-                
-                <h:panelGroup id="documentsPanel" rendered="#{patientBean.isEdit}">
-	                <div class="row">
-		  				<div class="col-sm-9 col-md-6 col-lg-12">  
-		    				<p:outputLabel value="Documents Uploaded"></p:outputLabel>
-		    			</div>	
-		    			<div class="col-sm-9 col-md-6 col-lg-12">  
-				  			 
-				  			 	<ui:repeat var="document" value="#{patientBean.documentsList}">
-				  			 		<div class="col-sm-4">
-											<div class="card">
-												<div class="card-header">
-													<h:outputLabel
-														value="#{document.docName}"></h:outputLabel>
-														<p:commandButton style="margin-top:2%" value="Delete Document" 
-														 action="#{patientBean.deleteDocument(document)}" update=":form1:documentsPanel"/>
-												</div>
-												<div class="card-body">
-													<a href="#{patientBean.returnFileUrl(document)}" target="_blank"><img
-														style="width: 200px; height: 200px;"
-														src="#{document.fileUrl}" /></a>
-													<br /> <a href="#{patientBean.returnFileUrl(document)}" target="_blank">Download</a>
-												</div>
-											</div>
-										</div>	
-								</ui:repeat>
-				  			                    		                      
-	                     </div>
-	                </div>
-	  			 </h:panelGroup>	  
-	  			<div class="row">
-	    			<div class="col-sm-9 col-md-6 col-lg-12">  
-	    				 <h:commandButton style="height: 40px;" value="Update Patient" rendered="#{patientBean.step eq 'EditRegister'}"  action="#{patientBean.save}" update="@form"/>
-	    				 <h:commandButton style="height: 40px;" value="Add Patient" rendered="#{patientBean.step eq 'addRegister'}"  action="#{patientBean.save}" update="@form"/>
-	    				
-	    			</div>    			
-	  			</div>
-  	</div>
-    
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<h:panelGroup rendered="#{patientBean.step eq 'addRegister'}">
+					<h1>New Patient</h1>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{patientBean.step eq 'EditRegister'}">
+					<h1>Edit Patient</h1>
+				</h:panelGroup>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="First Name*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="firstName" value="#{patientBean.patient.firstName}"
+					required="true"></p:inputText>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Last Name*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="lastName" value="#{patientBean.patient.lastName}"
+					required="true"></p:inputText>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Date of Birth*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:datePicker style="width:100%;" id="basic"
+					value="#{patientBean.patient.dateOfBirth}" required="true"
+					maxdate="#{patientBean.todaysDate}" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Email"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="emailAddress"
+					value="#{patientBean.patient.emailAddress}"></p:inputText>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Phone"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputNumber id="phoneNo" value="#{patientBean.patient.phoneNo}"></p:inputNumber>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Referrals"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:selectManyMenu id="referrals"
+					value="#{patientBean.selectedReferrals}"
+					converter="#{referralConverter}" var="c" showCheckbox="true">
+					<f:selectItems value="#{patientBean.referrals}" var="country"
+						itemLabel="#{country.referralId}" itemValue="#{country}" />
+
+
+					<p:column>
+						<h:outputText value="#{c.referralId}" />
+					</p:column>
+				</p:selectManyMenu>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Facilities"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:selectManyMenu id="advanced" scrollHeight="170"
+					value="#{patientBean.selectedFacilities}"
+					converter="#{facilityConverter}" var="c" showCheckbox="true">
+					<f:selectItems value="#{patientBean.facilities}" var="country"
+						itemLabel="#{country.name}" itemValue="#{country}" />
+
+
+					<p:column>
+						<h:outputText value="#{c.name}" />
+					</p:column>
+				</p:selectManyMenu>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Admit Date"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:datePicker style="width:100%;" id="admitDate"
+					value="#{patientBean.patient.admitDate}"
+					maxdate="#{patientBean.todaysDate}" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Admit Payer"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="admitPayer"
+					value="#{patientBean.patient.admitPayer}"></p:inputText>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Medicaid Need Date"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:datePicker style="width:100%;" id="medicaidNeedDate"
+					value="#{patientBean.patient.medicaidNeedDate}"
+					maxdate="#{patientBean.todaysDate}" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Have Medicaid"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:toggleSwitch value="#{patientBean.patient.haveMedicaid}" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Resident Liability Email Sent"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:toggleSwitch
+					value="#{patientBean.patient.residentLiabilityEmailSent}" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Address*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="address" value="#{patientBean.patient.address}"></p:inputText>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="City*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="city" value="#{patientBean.patient.city}"></p:inputText>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="ZipCode*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:inputText id="zipCode" value="#{patientBean.patient.zipCode}"></p:inputText>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="State*"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:selectOneMenu id="state" value="#{patientBean.patient.state}"
+					dynamic="true" required="true">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{patientBean.states}" />
+				</p:selectOneMenu>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:outputLabel value="Documents"></p:outputLabel>
+			</div>
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				<p:fileUpload listener="#{patientBean.handleFileUpload}"
+					mode="advanced" dragDropSupport="false" multiple="true"
+					update="messages" sizeLimit="100000000" fileLimit="3"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+				<p:growl id="messages" showDetail="true" keepAlive="true" />
+			</div>
+		</div>
+
+		<h:panelGroup id="documentsPanel" rendered="#{patientBean.isEdit}">
+			<div class="row">
+				<div class="col-sm-9 col-md-6 col-lg-12">
+					<p:outputLabel value="Documents Uploaded"></p:outputLabel>
+				</div>
+				<div class="col-sm-9 col-md-6 col-lg-12">
+
+					<ui:repeat var="document" value="#{patientBean.documentsList}">
+						<div class="col-sm-4">
+							<div class="card">
+								<div class="card-header">
+									<h:outputLabel value="#{document.docName}"></h:outputLabel>
+									<p:commandButton style="margin-top:2%" value="Delete Document"
+										action="#{patientBean.deleteDocument(document)}"
+										update=":form1:documentsPanel" />
+								</div>
+								<div class="card-body">
+									<a href="#{patientBean.returnFileUrl(document)}"
+										target="_blank"><img style="width: 200px; height: 200px;"
+										src="#{document.fileUrl}" /></a> <br /> <a
+										href="#{patientBean.returnFileUrl(document)}" target="_blank">Download</a>
+								</div>
+							</div>
+						</div>
+					</ui:repeat>
+
+				</div>
+			</div>
+		</h:panelGroup>
+		<div class="row">
+			<div class="col-sm-9 col-md-6 col-lg-12">
+				
+					<h:commandButton style="height: 40px;" value="Update Patient"
+					rendered="#{patientBean.step eq 'EditRegister'}"
+					action="#{patientBean.save}">
+							<f:ajax execute="@form" render="@form" />
+						</h:commandButton>
+				
+					<h:commandButton style="height: 40px;" value="Add Patient"
+					rendered="#{patientBean.step eq 'addRegister'}"
+					action="#{patientBean.save}">
+							<f:ajax execute="@form" render="@form" />
+						</h:commandButton>
+
+			</div>
+		</div>
+	</div>
+
 </f:view>

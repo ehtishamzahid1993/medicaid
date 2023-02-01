@@ -78,7 +78,7 @@ public class ReferralBean implements Serializable {
 		user=themeDisplay.getUser();
 		
 		
-
+		/*
 		try {
 			String facilityIds="";
 			try {
@@ -89,13 +89,29 @@ public class ReferralBean implements Serializable {
 			}
 			if(facilityIds!=null && !facilityIds.trim().equals(""))
 			{
+				
 				String[] array=facilityIds.split(",");
 				try {
+					HashMap<Long, Referral> map=new HashMap<Long, Referral>();
 					DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Referral.class, PortalClassLoaderUtil.getClassLoader());
 					for (int i = 0; i < array.length; i++) {
 						dynamicQuery.add(PropertyFactoryUtil.forName("facilities").like("%"+array[i]+",%"));
+						List<Referral> list  = ReferralLocalServiceUtil.dynamicQuery(dynamicQuery);
+						if(list!=null && list.size()>0)
+						{
+							for (Referral referral : list) {
+								if(map.containsKey(referral.getReferralId()))
+								{
+									
+								}else
+								{
+									map.put(referral.getReferralId(), referral);
+									referralList.add(referral);
+								}
+								
+							}
+						}
 					}					
-					referralList = ReferralLocalServiceUtil.dynamicQuery(dynamicQuery);
 				} catch (Exception e) {
 					log.error(FormattingUtil.getMessage(e));
 				}
@@ -108,14 +124,20 @@ public class ReferralBean implements Serializable {
 				}
 				log.info("facilities "+facilities.size());
 				
-			}else
+				}else
 			{
 				referralList=new ArrayList<Referral>();
 				facilities=new ArrayList<Facility>();
+				
+				
 			}
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}
+		*/
+		
+		referralList=ReferralLocalServiceUtil.getReferrals(-1, -1);
+		facilities=FacilityLocalServiceUtil.getFacilities(-1, -1);
 	
 		
 		
@@ -182,19 +204,20 @@ public class ReferralBean implements Serializable {
 
 	private void setFacilities() {
 		if(step.equals("EditRegister") && referral!=null) {
-		String facilityIds=referral.getFacilities();
-		if(facilityIds!=null && !facilityIds.trim().equals("")) {
-			String[] array=facilityIds.split(",");
-			for (int i = 0; i < array.length; i++) {
-				try {
-					Facility facility=FacilityLocalServiceUtil.getFacility(Long.valueOf(array[i]));
-					String value=""+ facility;
-					selectedFacilities.add(value);
-				} catch (Exception e) {
-					log.error(FormattingUtil.getMessage(e));
+			String facilityIds=referral.getFacilities();
+			if(facilityIds!=null && !facilityIds.trim().equals("")) {
+				String[] array=facilityIds.split(",");
+				for (int i = 0; i < array.length; i++) {
+					try {
+						Facility facility=FacilityLocalServiceUtil.getFacility(Long.valueOf(array[i]));
+						String value=""+ facility;
+						selectedFacilities.add(value);
+					} catch (Exception e) {
+						log.error(FormattingUtil.getMessage(e));
+					}
 				}
 			}
-		}
+			log.info("selectedFacilities "+selectedFacilities);
 		}
 	}
 	

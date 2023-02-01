@@ -34,6 +34,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -91,9 +92,8 @@ public class PatientBean implements Serializable {
 			SessionUtil.setSessionAttribute("patientList", null);
 		}else
 		{
-			patientsList=PatientLocalServiceUtil.getPatients(-1, -1);
-			facilities=FacilityLocalServiceUtil.getFacilities(-1,-1);
-			/*try {
+			/*
+			try {
 				String facilityIds="";
 				try {
 					facilityIds=(String) user.getExpandoBridge().getAttribute("Facilities");
@@ -105,6 +105,7 @@ public class PatientBean implements Serializable {
 				{
 					String[] array=facilityIds.split(",");
 					try {
+						HashMap<Long, Patient> map=new HashMap<Long, Patient>();
 						DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Patient.class, PortalClassLoaderUtil.getClassLoader());
 						for (int i = 0; i < array.length; i++) {
 							dynamicQuery.add(PropertyFactoryUtil.forName("facilityId").like("%"+array[i]+",%"));
@@ -112,7 +113,14 @@ public class PatientBean implements Serializable {
 							if(list!=null && list.size()>0)
 							{
 								for (Patient patient : list) {
-									patientsList.add(patient);
+									if(map.containsKey(patient.getPatientId()))
+									{
+										
+									}else
+									{
+										map.put(patient.getPatientId(), patient);
+										patientsList.add(patient);
+									}
 								}
 							}
 						}					
@@ -136,7 +144,10 @@ public class PatientBean implements Serializable {
 				}
 			} catch (Exception e) {
 				log.error(FormattingUtil.getMessage(e));
-			}*/
+			}
+			*/
+			patientsList=PatientLocalServiceUtil.getPatients(-1, -1);
+			facilities=FacilityLocalServiceUtil.getFacilities(-1, -1);
 		}
 		
 		try {
@@ -180,11 +191,14 @@ public class PatientBean implements Serializable {
 	
 	private void getDocuments(Patient patient2) {
 		try {
+			log.info("step "+step);
+			log.info("patient "+patient);
 			if(step.equals("EditRegister") && patient!=null) {
 				if(patient.getDocumentIds()!=null && !patient.getDocumentIds().trim().equals("")) {
 					documentsList=DocumentLocalServiceUtil.findByPatientId(patient.getPatientId());
 				}
 			}
+			log.info("documentsList "+documentsList.size());
 		} catch (Exception e) {
 			log.error(FormattingUtil.getMessage(e));
 		}

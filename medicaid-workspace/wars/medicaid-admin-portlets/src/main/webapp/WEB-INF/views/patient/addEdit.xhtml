@@ -64,7 +64,7 @@
 				<p:outputLabel value="Phone"></p:outputLabel>
 			</div>
 			<div class="col-sm-9 col-md-6 col-lg-12">
-				<p:inputNumber id="phoneNo" value="#{patientBean.patient.phoneNo}"></p:inputNumber>
+				<p:inputNumber id="phoneNo" thousandSeparator="" value="#{patientBean.patient.phoneNo}"></p:inputNumber>
 			</div>
 		</div>
 		<div class="row">
@@ -72,7 +72,7 @@
 				<p:outputLabel value="Referrals"></p:outputLabel>
 			</div>
 			<div class="col-sm-9 col-md-6 col-lg-12">
-				<p:selectManyMenu id="referrals"
+				<p:selectManyMenu id="referrals" scrollHeight="100"
 					value="#{patientBean.selectedReferrals}"
 					converter="#{referralConverter}" var="c" showCheckbox="true">
 					<f:selectItems value="#{patientBean.referrals}" var="country"
@@ -90,7 +90,7 @@
 				<p:outputLabel value="Facilities"></p:outputLabel>
 			</div>
 			<div class="col-sm-9 col-md-6 col-lg-12">
-				<p:selectManyMenu id="advanced" scrollHeight="170"
+				<p:selectManyMenu id="advanced" scrollHeight="100"
 					value="#{patientBean.selectedFacilities}"
 					converter="#{facilityConverter}" var="c" showCheckbox="true">
 					<f:selectItems value="#{patientBean.facilities}" var="country"
@@ -204,7 +204,7 @@
 			</div>
 		</div>
 
-		<h:panelGroup id="documentsPanel" rendered="#{patientBean.isEdit}">
+		<h:panelGroup id="documentsPanel" rendered="#{patientBean.step eq 'EditRegister'}">
 			<div class="row">
 				<div class="col-sm-9 col-md-6 col-lg-12">
 					<p:outputLabel value="Documents Uploaded"></p:outputLabel>
@@ -233,23 +233,7 @@
 				</div>
 			</div>
 		</h:panelGroup>
-		<div class="row">
-			<div class="col-sm-9 col-md-6 col-lg-12">
-				
-					<h:commandButton style="height: 40px;" value="Update Patient"
-					rendered="#{patientBean.step eq 'EditRegister'}"
-					action="#{patientBean.save}">
-							<f:ajax execute="@form" render="@form" />
-						</h:commandButton>
-				
-					<h:commandButton style="height: 40px;" value="Add Patient"
-					rendered="#{patientBean.step eq 'addRegister'}"
-					action="#{patientBean.save}">
-							<f:ajax execute="@form" render="@form" />
-						</h:commandButton>
-
-			</div>
-		</div>
+		
 	</div>
 
 </f:view>

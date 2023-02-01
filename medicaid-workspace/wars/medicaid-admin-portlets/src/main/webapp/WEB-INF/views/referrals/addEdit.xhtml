@@ -24,7 +24,7 @@
 	    				<p:outputLabel value="Referral Centers*"></p:outputLabel>
 	    			</div>	
 	    			<div class="col-sm-9 col-md-6 col-lg-12"> 	
-	    				 <p:selectManyMenu id="advanced" value="#{referralBean.selectedFacilities}"
+	    				 <p:selectManyMenu id="advanced" scrollHeight="100" value="#{referralBean.selectedFacilities}"
                             converter="#{facilityConverter}" 
                             var="c" showCheckbox="true" required="true">
 			            <f:selectItems value="#{referralBean.facilities}" var="country" itemLabel="#{country.name}"

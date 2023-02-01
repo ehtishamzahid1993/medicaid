@@ -46,9 +46,28 @@
 
 			</h:panelGroup>
 			<h:panelGroup rendered="#{patientBean.step eq 'EditRegister'}">
-				<h:form enctype="multipart/form-data">
+				<h:form id="form1" enctype="multipart/form-data">
 
 					<ui:include src="addEdit.xhtml" />
+					
+					<div class="row">
+						<div class="col-sm-9 col-md-6 col-lg-12">
+							
+								<h:commandButton style="height: 40px;" value="Update Patient"
+								rendered="#{patientBean.step eq 'EditRegister'}"
+								action="#{patientBean.save}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+							
+								<h:commandButton style="height: 40px;" value="Add Patient"
+								rendered="#{patientBean.step eq 'addRegister'}"
+								action="#{patientBean.save}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+			
+						</div>
+					</div>
+					
 				</h:form>
 
 			</h:panelGroup>
@@ -58,10 +77,23 @@
 
 					<ui:include src="addEdit.xhtml" />
 					
-					<h:commandButton style="height: 40px;" action="#{patientBean.flowSwitch('viewRegister')}"
-							value="Back">
-							<f:ajax execute="@form" render="mainBlock" />
-						</h:commandButton>
+					<div class="row">
+						<div class="col-sm-9 col-md-6 col-lg-12">
+							
+								<h:commandButton style="height: 40px;" value="Update Patient"
+								rendered="#{patientBean.step eq 'EditRegister'}"
+								action="#{patientBean.save}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+							
+								<h:commandButton style="height: 40px;" value="Add Patient"
+								rendered="#{patientBean.step eq 'addRegister'}"
+								action="#{patientBean.save}">
+										<f:ajax execute="@form" render="@form" />
+									</h:commandButton>
+			
+						</div>
+					</div>
 				</h:form>
 
 			</h:panelGroup>

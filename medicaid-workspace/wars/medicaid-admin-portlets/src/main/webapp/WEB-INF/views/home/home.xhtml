@@ -28,7 +28,7 @@
   			<div class="row">
     			<div class="col-sm-9 col-md-6 col-lg-4">
     				<p:outputLabel value="Facility"></p:outputLabel>
-     				<p:selectManyMenu id="facilities" value="#{homeBean.selectedFacilities}" 
+     				<p:selectManyMenu id="facilities" scrollHeight="100" value="#{homeBean.selectedFacilities}" 
                             converter="#{facilityConverter}" 
                             var="c" showCheckbox="true" >
                         <p:ajax listener="#{homeBean.setFacilityChange}" update="referralCards"/>
@@ -41,7 +41,7 @@
     			</div>
     			<div class="col-sm-9 col-md-6 col-lg-4">
     				<p:outputLabel value="State"></p:outputLabel>
-     				<p:selectManyMenu id="states" value="#{homeBean.selectedStates}" 
+     				<p:selectManyMenu id="states" scrollHeight="100" value="#{homeBean.selectedStates}" 
                             converter="#{facilityConverter}" 
                             var="c" showCheckbox="true" >
                             <p:ajax listener="#{homeBean.setFacilityStateChange}" update="referralCards"/>

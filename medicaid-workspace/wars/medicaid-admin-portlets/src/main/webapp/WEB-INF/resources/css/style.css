@@ -96,10 +96,14 @@ body .ui-selectonemenu {
     background: #f1f2f5;
     width: 100%;
 } 
-.p-datepicker {
-    position: relative;
-    display: inline-block;
-    width: 100%;
+.ui-datepicker {
+    width: auto !important;
+    
+}
+
+.p-datepicker-panel{
+	 width: auto !important;
+	 min-width: auto !important;
 }
 body .ui-state-disabled {
     opacity: 1.6;
